@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>読んだ本の 気もちシート｜こころん</title>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF7F2; --blush: #F7D6D0; --sky: #D4EAF5; --lavender: #E5DCF5;
+    --sage: #D8EDD8; --peach: #FDECD8; --yellow: #FDF5CC;
+    --border-soft: #D9C9B8; --text-dark: #5C4A38; --text-mid: #8B7260;
+    --text-light: #B09880; --accent: #C89E7A;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #F0EBE3; min-height: 100vh; padding: 24px 16px; }
+  .ws-wrap {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    background: var(--cream);
+    padding: 24px 20px 32px;
+    max-width: 600px;
+    margin: 0 auto;
+    color: var(--text-dark);
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  }
+  .ws-header { text-align: center; margin-bottom: 20px; }
+  .ws-title-main { font-size: 22px; font-weight: 700; color: var(--text-dark); letter-spacing: 0.02em; line-height: 1.8; }
+  .ws-subtitle { font-size: 13px; color: var(--text-mid); margin-top: 4px; }
+  .section-card {
+    background: white; border-radius: 16px; border: 1.5px solid var(--border-soft);
+    padding: 14px 16px; margin-bottom: 14px; position: relative;
+  }
+  .section-question { font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 10px; line-height: 1.8; }
+  .write-line {
+    border: none; border-bottom: 1.5px solid var(--border-soft);
+    display: block; width: 100%; margin: 8px 0; height: 28px;
+    background: transparent; font-family: inherit; font-size: 15px;
+    color: var(--text-dark); outline: none; padding: 2px 4px;
+  }
+  .write-line:focus { border-bottom-color: var(--accent); }
+  .write-box {
+    border: 1.5px solid var(--border-soft); border-radius: 10px; width: 100%;
+    min-height: 64px; padding: 8px 10px; font-family: inherit; font-size: 14px;
+    color: var(--text-dark); background: transparent; resize: none; outline: none; line-height: 1.8;
+  }
+  .write-box:focus { border-color: var(--accent); }
+  .who-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .who-chip {
+    border: 1.5px solid var(--border-soft); border-radius: 20px; padding: 5px 14px;
+    font-size: 13px; cursor: pointer; background: white; color: var(--text-mid);
+    font-family: inherit; transition: all 0.15s; line-height: 1.8;
+  }
+  .who-chip:hover { background: var(--peach); border-color: var(--accent); }
+  .who-chip.selected { background: var(--blush); border-color: #D4867A; color: var(--text-dark); font-weight: 700; }
+  .feelings-section {
+    background: white; border-radius: 16px; border: 1.5px solid var(--border-soft);
+    padding: 14px 16px; margin-bottom: 14px;
+  }
+  .feelings-timeline { display: flex; align-items: stretch; gap: 0; margin-top: 10px; }
+  .feeling-block { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .feeling-label-top { font-size: 11px; color: var(--text-mid); text-align: center; line-height: 1.8; }
+  .feeling-box-outer {
+    width: 100%; border: 1.5px solid var(--border-soft); border-radius: 12px;
+    padding: 10px 6px; background: var(--cream); display: flex; flex-direction: column;
+    align-items: center; gap: 6px; min-height: 110px;
+  }
+  .feeling-tag-grid { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; }
+  .feeling-tag {
+    font-size: 10px; border: 1px solid var(--border-soft); border-radius: 10px;
+    padding: 2px 6px; cursor: pointer; background: white; color: var(--text-mid);
+    font-family: inherit; transition: all 0.12s; line-height: 1.4;
+  }
+  .feeling-tag:hover { background: var(--sky); }
+  .feeling-tag.sel-happy { background: #FDF5CC; border-color: #C9A840; color: #7A6020; }
+  .feeling-tag.sel-calm  { background: #D4EAF5; border-color: #5DA0CC; color: #1E5A80; }
+  .feeling-tag.sel-sad   { background: #E5DCF5; border-color: #9B7DC8; color: #4A2D80; }
+  .feeling-tag.sel-angry { background: #F7D6D0; border-color: #D4867A; color: #7A2A20; }
+  .feeling-write {
+    border: none; border-bottom: 1px solid var(--border-soft); width: 100%;
+    background: transparent; font-family: inherit; font-size: 11px;
+    color: var(--text-dark); text-align: center; outline: none; padding: 2px 0; margin-top: 2px;
+  }
+  .arrow-mid { display: flex; align-items: center; padding: 0 2px; color: var(--border-soft); font-size: 20px; margin-top: 30px; }
+  .color-card-sky    { background: var(--sky);    border-color: #9ACDE0; }
+  .color-card-blush  { background: var(--blush);  border-color: #E4A898; }
+  .color-card-yellow { background: var(--yellow); border-color: #D4BE64; }
+  .section-icon {
+    width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; font-size: 14px; position: absolute; top: -12px; left: 14px;
+  }
+  .tip-text { font-size: 11px; color: var(--text-light); margin-top: 4px; line-height: 1.8; }
+  .stars-row { display: flex; gap: 6px; justify-content: center; margin-top: 8px; }
+  .star-btn {
+    font-size: 28px; cursor: pointer; color: #D3C8B8; background: none;
+    border: none; padding: 2px; transition: color 0.1s, transform 0.1s; line-height: 1;
+  }
+  .star-btn:hover { transform: scale(1.15); }
+  .star-btn.lit { color: #F5C842; }
+  .print-btn {
+    display: block; margin: 18px auto 0; padding: 10px 32px;
+    background: var(--blush); border: 1.5px solid #D4867A; border-radius: 24px;
+    font-family: inherit; font-size: 14px; font-weight: 700; color: #7A2A20; cursor: pointer;
+  }
+  .print-btn:hover { background: #F7C8C0; }
+
+  ruby { ruby-align: center; }
+  rt { font-size: 0.55em; color: var(--text-mid); font-weight: 400; }
+
+  /* チャートボタン */
+  .chart-open-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--lavender); border: 1.5px solid #B8A0DC;
+    border-radius: 20px; padding: 5px 14px; font-family: inherit;
+    font-size: 12px; font-weight: 700; color: #5A3E8A; cursor: pointer;
+    margin-top: 8px; transition: background 0.15s;
+  }
+  .chart-open-btn:hover { background: #D8CCEF; }
+
+  /* モーダル背景 */
+  .chart-modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(60,40,20,0.45); z-index: 100;
+    justify-content: center; align-items: flex-end;
+  }
+  .chart-modal-overlay.open { display: flex; }
+
+  /* モーダル本体（ボトムシート） */
+  .chart-modal {
+    background: var(--cream); border-radius: 24px 24px 0 0;
+    width: 100%; max-width: 600px; max-height: 92vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 -4px 32px rgba(0,0,0,0.14);
+    animation: slideUp 0.25s ease;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+  .chart-modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px 0; flex-shrink: 0;
+  }
+  .chart-modal-title { font-size: 15px; font-weight: 700; color: var(--text-dark); }
+  .chart-close-btn {
+    background: var(--border-soft); border: none; border-radius: 50%;
+    width: 28px; height: 28px; font-size: 14px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; color: var(--text-mid);
+  }
+
+  /* タブ */
+  .chart-tabs {
+    display: flex; gap: 6px; padding: 12px 20px 0; flex-shrink: 0; overflow-x: auto;
+  }
+  .chart-tab {
+    border: 1.5px solid var(--border-soft); border-radius: 16px;
+    padding: 4px 12px; font-family: inherit; font-size: 11px; font-weight: 700;
+    color: var(--text-mid); background: white; cursor: pointer;
+    white-space: nowrap; transition: all 0.12s;
+  }
+  .chart-tab.active { background: var(--lavender); border-color: #B8A0DC; color: #5A3E8A; }
+
+  /* 画像エリア */
+  .chart-img-area {
+    flex: 1; overflow-y: auto; padding: 12px 20px 24px;
+  }
+  .chart-img-area img {
+    width: 100%; border-radius: 12px;
+    display: none;
+  }
+  .chart-img-area img.active { display: block; }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .ws-wrap { box-shadow: none; border-radius: 0; }
+    .print-btn { display: none; }
+    .chart-modal-overlay { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="ws-wrap">
+
+  <div class="ws-header">
+    <div style="display:flex;justify-content:center;align-items:flex-end;gap:8px;margin-bottom:8px;">
+      <span style="font-size:32px">🦥</span>
+      <span style="font-size:13px;color:var(--text-mid);padding-bottom:6px">いっしょに <ruby>読<rt>よ</rt></ruby>もう！</span>
+    </div>
+    <div class="ws-title-main">📖 <ruby>読<rt>よ</rt></ruby>んだ<ruby>本<rt>ほん</rt></ruby>の 気もちシート</div>
+    <div class="ws-subtitle"><ruby>名前<rt>なまえ</rt></ruby>：_______________　　<ruby>日<rt>ひ</rt></ruby>づけ：_______________</div>
+  </div>
+
+  <!-- タイトル -->
+  <div class="section-card" style="background:var(--sky);border-color:#9ACDE0;padding-top:18px;">
+    <div class="section-icon" style="background:#fff;border:1.5px solid #9ACDE0;">📚</div>
+    <div class="section-question"><ruby>読<rt>よ</rt></ruby>んだ<ruby>本<rt>ほん</rt></ruby>のタイトル</div>
+    <input class="write-line" type="text" placeholder="『　　　　　　　　　　　　　　　』" style="border-bottom-color:#7AAAC4;font-size:16px;font-weight:700;">
+    <div style="display:flex;gap:16px;margin-top:10px;">
+      <div style="flex:1">
+        <div style="font-size:11px;color:var(--text-mid);margin-bottom:4px;line-height:1.8;"><ruby>作<rt>さく</rt></ruby>しゃ</div>
+        <input class="write-line" type="text" placeholder="　　　　　" style="border-bottom-color:#9ACDE0;">
+      </div>
+      <div style="flex:1">
+        <div style="font-size:11px;color:var(--text-mid);margin-bottom:4px;line-height:1.8;"><ruby>読<rt>よ</rt></ruby>んだページ</div>
+        <input class="write-line" type="text" placeholder="　〜　ページ" style="border-bottom-color:#9ACDE0;">
+      </div>
+    </div>
+  </div>
+
+  <!-- 登場人物 -->
+  <div class="section-card" style="padding-top:18px;">
+    <div class="section-icon" style="background:var(--peach);border:1.5px solid #D4B090;">👥</div>
+    <div class="section-question">お<ruby>話<rt>はなし</rt></ruby>に<ruby>出<rt>で</rt></ruby>てきたのは だれ？</div>
+    <div style="font-size:12px;color:var(--text-mid);margin-bottom:8px;">あてはまるものを タップしてね</div>
+    <div class="who-grid">
+      <button class="who-chip" onclick="toggleChip(this)">🧒 <ruby>子<rt>こ</rt></ruby>ども</button>
+      <button class="who-chip" onclick="toggleChip(this)">🧑 <ruby>大人<rt>おとな</rt></ruby></button>
+      <button class="who-chip" onclick="toggleChip(this)">👴 おじいさん・おばあさん</button>
+      <button class="who-chip" onclick="toggleChip(this)">🐶 いぬ・ねこ</button>
+      <button class="who-chip" onclick="toggleChip(this)">🐻 どうぶつ</button>
+      <button class="who-chip" onclick="toggleChip(this)">🧚 ようせい・まほうつかい</button>
+    </div>
+    <div style="margin-top:10px;">
+      <div style="font-size:12px;color:var(--text-mid);margin-bottom:4px;line-height:1.8;">だれのことが <ruby>一番<rt>いちばん</rt></ruby> すきだった？</div>
+      <input class="write-line" type="text" placeholder="　　　　　　　　　　　　　　　　　">
+    </div>
+  </div>
+
+  <!-- きもちの変化 -->
+  <div class="feelings-section" style="padding-top:18px;position:relative;">
+    <div class="section-icon" style="background:var(--blush);border:1.5px solid #E4A898;">💭</div>
+    <div class="section-question">気もちの へんか</div>
+    <div class="tip-text" style="margin-bottom:10px;">タグをタッチ or <ruby>自分<rt>じぶん</rt></ruby>のことばで<ruby>書<rt>か</rt></ruby>いてね</div>
+    <div class="feelings-timeline">
+      <div class="feeling-block">
+        <div class="feeling-label-top">🌱<br>はじめは</div>
+        <div class="feeling-box-outer color-card-sky">
+          <div class="feeling-tag-grid" id="tags-start"></div>
+          <input class="feeling-write" type="text" placeholder="ことばで書く...">
+        </div>
+      </div>
+      <div class="arrow-mid">→</div>
+      <div class="feeling-block">
+        <div class="feeling-label-top">🌿<br>とちゅうは</div>
+        <div class="feeling-box-outer color-card-yellow">
+          <div class="feeling-tag-grid" id="tags-mid"></div>
+          <input class="feeling-write" type="text" placeholder="ことばで書く...">
+        </div>
+      </div>
+      <div class="arrow-mid">→</div>
+      <div class="feeling-block">
+        <div class="feeling-label-top">🌸<br>さいごは</div>
+        <div class="feeling-box-outer color-card-blush">
+          <div class="feeling-tag-grid" id="tags-end"></div>
+          <input class="feeling-write" type="text" placeholder="ことばで書く...">
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:10px;">
+      <button class="chart-open-btn" onclick="openChart()">
+        🗂️ 気もちチャートを見る
+      </button>
+    </div>
+  </div>
+
+  <!-- すきなところ -->
+  <div class="section-card" style="background:var(--sage);border-color:#9DC99D;padding-top:18px;">
+    <div class="section-icon" style="background:#fff;border:1.5px solid #9DC99D;">❤️</div>
+    <div class="section-question">この<ruby>本<rt>ほん</rt></ruby>のすきなところ</div>
+    <textarea class="write-box" placeholder="どんなばめんが すきだった？&#10;どうしてすきだとおもった？" style="min-height:72px;background:rgba(255,255,255,0.6);border-color:#9DC99D;"></textarea>
+  </div>
+
+  <!-- じぶんだったら -->
+  <div class="section-card" style="background:var(--lavender);border-color:#B8A0DC;padding-top:18px;">
+    <div class="section-icon" style="background:#fff;border:1.5px solid #B8A0DC;">🪞</div>
+    <div class="section-question"><ruby>自分<rt>じぶん</rt></ruby>だったら どうする？どうおもう？</div>
+    <div class="tip-text" style="margin-bottom:8px;">キャラクターと <ruby>自分<rt>じぶん</rt></ruby>をくらべてみよう</div>
+    <textarea class="write-box" placeholder="わたしなら…&#10;わたしも おなじ気もちに なったことが ある！" style="min-height:64px;background:rgba(255,255,255,0.6);border-color:#B8A0DC;"></textarea>
+  </div>
+
+  <!-- おすすめ度 -->
+  <div class="section-card" style="padding-top:18px;">
+    <div class="section-icon" style="background:var(--yellow);border:1.5px solid #D4BE64;">⭐</div>
+    <div class="section-question" style="text-align:center;">おすすめ度は？</div>
+    <div class="stars-row" id="starRow">
+      <button class="star-btn" onclick="rateStar(1)">★</button>
+      <button class="star-btn" onclick="rateStar(2)">★</button>
+      <button class="star-btn" onclick="rateStar(3)">★</button>
+      <button class="star-btn" onclick="rateStar(4)">★</button>
+      <button class="star-btn" onclick="rateStar(5)">★</button>
+    </div>
+    <div style="text-align:center;font-size:12px;color:var(--text-light);margin-top:6px;" id="starLabel">タップして えらんでね</div>
+    <div style="margin-top:12px;font-size:13px;font-weight:700;color:var(--text-dark);line-height:1.8;">つぎに<ruby>読<rt>よ</rt></ruby>みたい <ruby>人<rt>ひと</rt></ruby>へ ひとこと</div>
+    <input class="write-line" type="text" placeholder="　　　　　　　　　　　　　　　　　">
+  </div>
+
+  <!-- こころんメッセージ -->
+  <div style="text-align:center;margin-top:16px;padding:14px 16px;background:white;border-radius:14px;border:1.5px dashed var(--border-soft);">
+    <div style="font-size:22px;margin-bottom:4px;">🦥</div>
+    <div style="font-size:12px;color:var(--text-mid);line-height:2;">
+      気もちに きづいてくれて ありがとう。<br>
+      気もちを ことばにできると、<ruby>心<rt>こころ</rt></ruby>が すっきりするよ。<br>
+      <span style="font-size:11px;color:var(--text-light)">— こころん 🌿</span>
+    </div>
+  </div>
+
+  <button class="print-btn" onclick="window.print()">🖨️ このシートをいんさつする</button>
+
+</div>
+
+<!-- 気もちチャート モーダル -->
+<div class="chart-modal-overlay" id="chartOverlay" onclick="overlayClose(event)">
+  <div class="chart-modal">
+    <div class="chart-modal-header">
+      <div class="chart-modal-title">🦥 気もちチャート</div>
+      <button class="chart-close-btn" onclick="closeChart()">✕</button>
+    </div>
+    <div class="chart-tabs">
+      <button class="chart-tab active" onclick="switchTab(0, this)">😊 気もちことば</button>
+      <button class="chart-tab" onclick="switchTab(1, this)">💬 オノマトペ①</button>
+      <button class="chart-tab" onclick="switchTab(2, this)">💬 オノマトペ②</button>
+    </div>
+    <div class="chart-img-area" id="chartImgArea">
+      <img src="images/chart_feelings.jpg" alt="気もちことばチャート" class="active">
+      <img src="images/chart_onomatopoeia1.jpg" alt="感情オノマトペチャート①">
+      <img src="images/chart_onomatopoeia2.jpg" alt="感情オノマトペチャート②">
+    </div>
+  </div>
+</div>
+
+<script>
+const FEELINGS = [
+  {label:'ドキドキ',cat:'happy'},{label:'わくわく',cat:'happy'},{label:'うきうき',cat:'happy'},
+  {label:'にこにこ',cat:'happy'},{label:'るんるん',cat:'happy'},
+  {label:'あんしん',cat:'calm'},{label:'しんみり',cat:'calm'},
+  {label:'もやもや',cat:'sad'},{label:'しくしく',cat:'sad'},{label:'びくびく',cat:'sad'},
+  {label:'さびしい',cat:'sad'},{label:'かなしい',cat:'sad'},
+  {label:'むかむか',cat:'angry'},{label:'いらいら',cat:'angry'},{label:'ぷんぷん',cat:'angry'},
+];
+function makeTags(id) {
+  const c = document.getElementById(id);
+  FEELINGS.forEach(f => {
+    const b = document.createElement('button');
+    b.className = 'feeling-tag';
+    b.textContent = f.label;
+    b.onclick = function(){ this.classList.toggle('sel-' + f.cat); };
+    c.appendChild(b);
+  });
+}
+makeTags('tags-start');
+makeTags('tags-mid');
+makeTags('tags-end');
+
+function toggleChip(el) { el.classList.toggle('selected'); }
+
+const starLabels = ['','もうすこし…','まあまあ','よかった！','すごくよかった！','さいこう！！'];
+function rateStar(n) {
+  document.querySelectorAll('.star-btn').forEach((s,i) => s.classList.toggle('lit', i < n));
+  document.getElementById('starLabel').textContent = starLabels[n];
+}
+
+// チャートモーダル
+function openChart() {
+  document.getElementById('chartOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeChart() {
+  document.getElementById('chartOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function overlayClose(e) {
+  if (e.target === document.getElementById('chartOverlay')) closeChart();
+}
+function switchTab(idx, btn) {
+  document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#chartImgArea img').forEach((img, i) => {
+    img.classList.toggle('active', i === idx);
+  });
+  document.getElementById('chartImgArea').scrollTop = 0;
+}
+</script>
+</body>
+</html>
