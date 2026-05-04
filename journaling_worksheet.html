@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ジャーナリング ワークシート｜こころん</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Shippori+Mincho:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf6f0;
+    --blush: #f2ddd5;
+    --lavender: #ddd5ee;
+    --sage: #ccddd0;
+    --peach: #f0c9b0;
+    --text: #4a4040;
+    --text-light: #8a7878;
+    --white: #fffef9;
+    --border: #e8ddd5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--text);
+    font-family: 'Zen Maru Gothic', sans-serif;
+    min-height: 100vh;
+    padding: 40px 20px 80px;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(242,221,213,0.4) 0%, transparent 50%),
+      radial-gradient(circle at 90% 80%, rgba(221,213,238,0.4) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(204,221,208,0.2) 0%, transparent 70%);
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* ヘッダー */
+  .header {
+    text-align: center;
+    padding: 48px 0 40px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .header .kokkoron {
+    font-size: 32px;
+    margin-bottom: 12px;
+    display: block;
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .header h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .header p {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.8;
+  }
+
+  .divider {
+    width: 48px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--blush), var(--lavender));
+    margin: 20px auto;
+    border-radius: 2px;
+  }
+
+  /* イントロ */
+  .intro {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    border: 1px solid var(--border);
+    font-size: 14px;
+    line-height: 2;
+    color: var(--text-light);
+    animation: fadeUp 0.8s ease 0.1s both;
+  }
+
+  /* ワークカード */
+  .work-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 32px;
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+    animation: fadeUp 0.8s ease both;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .work-card:hover {
+    box-shadow: 0 8px 32px rgba(180,160,160,0.12);
+  }
+
+  .work-card:nth-child(1) { animation-delay: 0.2s; }
+  .work-card:nth-child(2) { animation-delay: 0.3s; }
+  .work-card:nth-child(3) { animation-delay: 0.4s; }
+  .work-card:nth-child(4) { animation-delay: 0.5s; }
+
+  .work-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .work-badge {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .badge-blush { background: var(--blush); color: #a06060; }
+  .badge-lavender { background: var(--lavender); color: #7060a0; }
+  .badge-sage { background: var(--sage); color: #406050; }
+  .badge-peach { background: var(--peach); color: #a06030; }
+
+  .work-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .work-desc {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.9;
+    margin-bottom: 20px;
+  }
+
+  /* 質問エリア */
+  .question-block {
+    margin-bottom: 18px;
+  }
+
+  .question-label {
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    line-height: 1.6;
+  }
+
+  .q-icon {
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  textarea {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--cream);
+    resize: vertical;
+    min-height: 90px;
+    line-height: 1.8;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    outline: none;
+  }
+
+  textarea:focus {
+    border-color: var(--lavender);
+    background: var(--white);
+  }
+
+  textarea::placeholder {
+    color: #c0b0b0;
+    font-size: 13px;
+  }
+
+  /* チェックリスト */
+  .check-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    background: var(--cream);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 13px;
+    user-select: none;
+  }
+
+  .check-item:hover {
+    background: var(--white);
+    border-color: var(--lavender);
+  }
+
+  .check-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #a090c8;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .check-item.checked {
+    background: var(--lavender);
+    border-color: #c0b0e0;
+    opacity: 0.85;
+  }
+
+  /* スケール */
+  .scale-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .scale-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    background: var(--cream);
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 14px;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .scale-btn:hover {
+    background: var(--blush);
+    border-color: var(--peach);
+  }
+
+  .scale-btn.selected {
+    background: var(--blush);
+    border-color: #d09080;
+    color: #804040;
+    font-weight: 700;
+  }
+
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-light);
+    margin-top: 6px;
+    padding: 0 2px;
+  }
+
+  /* 区切り */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 24px 0;
+  }
+
+  /* 保存ボタン */
+  .save-area {
+    text-align: center;
+    padding: 16px 0 0;
+    animation: fadeUp 0.8s ease 0.6s both;
+  }
+
+  .save-btn {
+    background: linear-gradient(135deg, #e8c8c0, #d0c0e0);
+    color: var(--white);
+    border: none;
+    border-radius: 50px;
+    padding: 16px 48px;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 20px rgba(200,160,160,0.3);
+  }
+
+  .save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(200,160,160,0.4);
+  }
+
+  .save-btn:active {
+    transform: translateY(0);
+  }
+
+  /* 完了メッセージ */
+  .complete-msg {
+    display: none;
+    background: var(--white);
+    border-radius: 20px;
+    padding: 32px;
+    text-align: center;
+    margin-top: 24px;
+    border: 1px solid var(--border);
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .complete-msg .emoji {
+    font-size: 40px;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .complete-msg h3 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .complete-msg p {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 2;
+  }
+
+  /* フッター */
+  .footer {
+    text-align: center;
+    margin-top: 48px;
+    font-size: 12px;
+    color: var(--text-light);
+    line-height: 2;
+    animation: fadeUp 0.8s ease 0.7s both;
+  }
+
+  /* アニメーション */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  /* スマホ対応 */
+  @media (max-width: 480px) {
+    body { padding: 20px 16px 60px; }
+    .work-card { padding: 24px 20px; }
+    .intro { padding: 22px 20px; }
+    .header h1 { font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ヘッダー -->
+  <div class="header">
+    <span class="kokkoron">🦥</span>
+    <h1>ジャーナリング ワークシート</h1>
+    <div class="divider"></div>
+    <p>自分の声を聴き、整えるための時間へ<br>答えは正しくなくていい。今のあなたのままで 🌿</p>
+  </div>
+
+  <!-- イントロ -->
+  <div class="intro">
+    AIが進化するこれからの時代、いちばん大切なのは「自分を知ること」。<br>
+    このワークシートは、あなたの内側にある声をそっと引き出すためのものです。<br>
+    書けないところは飛ばしてOK。ゆっくり、じぶんのペースで 🕊️
+  </div>
+
+  <!-- WORK 1 -->
+  <div class="work-card">
+    <div class="work-header">
+      <span class="work-badge badge-blush">WORK 1</span>
+      <span class="work-title">今の自分の状態を知る</span>
+    </div>
+    <p class="work-desc">
+      まずは「今ここ」の自分に気づくところから。<br>
+      頭・心・体、それぞれに問いかけてみましょう。
+    </p>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">🧠</span>
+        <span>頭の中に、今どんなことがぐるぐるしていますか？</span>
+      </div>
+      <textarea placeholder="気になっていること、考えていること、何でも…"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">🫀</span>
+        <span>今、心はどんな感じですか？</span>
+      </div>
+      <textarea placeholder="軽い、重い、モヤモヤ、ほっとしている…など"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">🌿</span>
+        <span>体の状態は？（疲れ、緊張、リラックス…）</span>
+      </div>
+      <textarea placeholder="肩がこっている、眠い、元気がある…など" style="min-height:70px;"></textarea>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">✨</span>
+        <span>今日（最近）、小さくてもよかったことはありましたか？</span>
+      </div>
+      <textarea placeholder="どんな小さなことでも…" style="min-height:70px;"></textarea>
+    </div>
+  </div>
+
+  <!-- WORK 2 -->
+  <div class="work-card">
+    <div class="work-header">
+      <span class="work-badge badge-lavender">WORK 2</span>
+      <span class="work-title">自分の価値観を掘り下げる</span>
+    </div>
+    <p class="work-desc">
+      繰り返し出てくる「好き」や「大切にしていること」が、あなたの軸になります。
+    </p>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">💛</span>
+        <span>最近「これ好きだな」と感じた瞬間を教えてください</span>
+      </div>
+      <textarea placeholder="場所、人、もの、時間…なんでも"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">🌸</span>
+        <span>どんな時間を過ごしているとき、心が満たされますか？</span>
+      </div>
+      <textarea placeholder="一人でいるとき、誰かといるとき、何かをしているとき…"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">🌙</span>
+        <span>「これだけは大切にしたい」と思うことを、3つ書いてみてください</span>
+      </div>
+      <textarea placeholder="①&#13;&#10;②&#13;&#10;③"></textarea>
+    </div>
+  </div>
+
+  <!-- WORK 3 -->
+  <div class="work-card">
+    <div class="work-header">
+      <span class="work-badge badge-sage">WORK 3</span>
+      <span class="work-title">AIに任せること／自分でやることを整理する</span>
+    </div>
+    <p class="work-desc">
+      ツールを使いこなすには、まず「自分は何をしたいか」を知ることが大切。<br>
+      今の自分にとっての使い分けを言語化してみましょう。
+    </p>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">🤖</span>
+        <span>AIに任せたいこと・助けてもらいたいことは？</span>
+      </div>
+      <textarea placeholder="調べもの、文章の整理、アイデア出し…など"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">🙋</span>
+        <span>自分でやりたいこと・自分の手でやる意味があることは？</span>
+      </div>
+      <textarea placeholder="感じること、決めること、人と関わること…など"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">🧭</span>
+        <span>AIを使って、本当はどんな時間を増やしたいですか？</span>
+      </div>
+      <textarea placeholder="家族との時間、好きなことをする時間、整う時間…など"></textarea>
+    </div>
+  </div>
+
+  <!-- WORK 4 -->
+  <div class="work-card">
+    <div class="work-header">
+      <span class="work-badge badge-peach">WORK 4</span>
+      <span class="work-title">明日からの小さな一歩</span>
+    </div>
+    <p class="work-desc">
+      完璧にやろうとしなくていい。<br>
+      「続けられそう」な小さな約束を、自分に。
+    </p>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">⏰</span>
+        <span>ジャーナリングをするタイミングを決めましょう</span>
+      </div>
+      <div class="check-list" id="timing-list">
+        <label class="check-item">
+          <input type="checkbox" onchange="toggleCheck(this)"> 朝起きてすぐ（5〜10分）
+        </label>
+        <label class="check-item">
+          <input type="checkbox" onchange="toggleCheck(this)"> 夜、リラックスできる時間に
+        </label>
+        <label class="check-item">
+          <input type="checkbox" onchange="toggleCheck(this)"> 気が向いたときに
+        </label>
+        <label class="check-item">
+          <input type="checkbox" onchange="toggleCheck(this)"> 新月・満月のタイミングで
+        </label>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">✍️</span>
+        <span>明日、最初に書いてみたいことは何ですか？</span>
+      </div>
+      <textarea placeholder="どんな小さなことでも。一文でも大丈夫です 🌿"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">💌</span>
+        <span>今の自分に、ひとこと声をかけるとしたら？</span>
+      </div>
+      <textarea placeholder="やさしい言葉を、ありのままに…" style="min-height:70px;"></textarea>
+    </div>
+  </div>
+
+  <!-- 保存ボタン -->
+  <div class="save-area">
+    <button class="save-btn" onclick="handleComplete()">
+      🕊️ ワークを終える
+    </button>
+  </div>
+
+  <!-- 完了メッセージ -->
+  <div class="complete-msg" id="complete-msg">
+    <span class="emoji">🦥✨</span>
+    <h3>お疲れさまでした</h3>
+    <p>
+      自分の声を聴く時間を、とってくれてありがとう。<br>
+      書いた言葉は、全部あなたの大切な気づきです。<br><br>
+      整うって、がんばることじゃなくて<br>
+      やさしく戻ること。<br><br>
+      また明日も、ここに戻ってきていいよ 🌿
+    </p>
+  </div>
+
+  <!-- フッター -->
+  <div class="footer">
+    <p>🦥 こころん × Moca｜やさしく整う、わたしの時間</p>
+    <p style="margin-top:4px;">ジャーナリングの会・詳細はプロフィールから</p>
+  </div>
+
+</div>
+
+<script>
+  function toggleCheck(checkbox) {
+    const item = checkbox.closest('.check-item');
+    if (checkbox.checked) {
+      item.classList.add('checked');
+    } else {
+      item.classList.remove('checked');
+    }
+  }
+
+  function handleComplete() {
+    const msg = document.getElementById('complete-msg');
+    msg.style.display = 'block';
+    setTimeout(() => {
+      msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  }
+</script>
+
+</body>
+</html>

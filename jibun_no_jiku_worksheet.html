@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自分の軸を見つける整理ワークシート｜モカ＆こころん</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Shippori+Mincho:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf6f0;
+    --blush: #f2ddd5;
+    --blush-dark: #e8c8bc;
+    --sage: #ccddd0;
+    --sage-dark: #a8c4b0;
+    --peach: #f0c9b0;
+    --lavender: #ddd5ee;
+    --text: #4a4040;
+    --text-light: #8a7878;
+    --white: #fffef9;
+    --border: #e8ddd5;
+    --pink-accent: #d4847a;
+    --green-accent: #6a9e80;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--text);
+    font-family: 'Zen Maru Gothic', sans-serif;
+    min-height: 100vh;
+    padding: 40px 20px 80px;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(242,221,213,0.5) 0%, transparent 50%),
+      radial-gradient(circle at 90% 80%, rgba(204,221,208,0.4) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(240,201,176,0.2) 0%, transparent 70%);
+  }
+
+  .container { max-width: 700px; margin: 0 auto; }
+
+  /* ヘッダー */
+  .header {
+    text-align: center;
+    padding: 48px 0 36px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .header .tag {
+    display: inline-block;
+    background: var(--blush);
+    color: var(--pink-accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .header h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .header h1 span {
+    color: var(--pink-accent);
+  }
+
+  .header .sub {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.8;
+    margin-top: 8px;
+  }
+
+  .divider {
+    width: 48px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--blush-dark), var(--sage-dark));
+    margin: 20px auto;
+    border-radius: 2px;
+  }
+
+  /* イントロ */
+  .intro {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 24px 28px;
+    margin-bottom: 32px;
+    border: 1px solid var(--border);
+    font-size: 13.5px;
+    line-height: 2;
+    color: var(--text-light);
+    animation: fadeUp 0.8s ease 0.1s both;
+  }
+
+  .intro strong { color: var(--text); }
+
+  /* フロー図 */
+  .flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 24px 0 32px;
+    animation: fadeUp 0.8s ease 0.15s both;
+  }
+
+  .flow-item {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    text-align: center;
+  }
+
+  .flow-item.active {
+    background: var(--blush);
+    border-color: var(--blush-dark);
+    color: var(--pink-accent);
+  }
+
+  .flow-arrow {
+    font-size: 14px;
+    color: var(--text-light);
+  }
+
+  /* ワークカード */
+  .work-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 30px 32px;
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .work-card:nth-child(1) { animation-delay: 0.2s; }
+  .work-card:nth-child(2) { animation-delay: 0.3s; }
+  .work-card:nth-child(3) { animation-delay: 0.4s; }
+  .work-card:nth-child(4) { animation-delay: 0.5s; }
+  .work-card:nth-child(5) { animation-delay: 0.6s; }
+
+  .work-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .step-badge {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .badge-blush   { background: var(--blush);    color: #a06060; }
+  .badge-sage    { background: var(--sage);     color: #406050; }
+  .badge-peach   { background: var(--peach);    color: #a06030; }
+  .badge-lavender{ background: var(--lavender); color: #7060a0; }
+  .badge-green   { background: #d4edd8;         color: #3a7050; }
+
+  .work-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .work-desc {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.9;
+    margin: 10px 0 20px;
+  }
+
+  /* 質問ブロック */
+  .question-block { margin-bottom: 20px; }
+
+  .question-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    line-height: 1.6;
+  }
+
+  .q-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: var(--blush);
+    color: var(--pink-accent);
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .q-icon.green { background: var(--sage); color: var(--green-accent); }
+  .q-icon.peach { background: var(--peach); color: #a06030; }
+  .q-icon.purple { background: var(--lavender); color: #7060a0; }
+
+  textarea {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--cream);
+    resize: vertical;
+    transition: border-color 0.2s;
+    line-height: 1.8;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: var(--blush-dark);
+    background: var(--white);
+  }
+
+  textarea::placeholder { color: #c8b8b8; }
+
+  /* 変換フロー（STEP3用） */
+  .convert-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .convert-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .convert-label {
+    flex-shrink: 0;
+    width: 90px;
+    background: var(--peach);
+    color: #a06030;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 8px 10px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+
+  .convert-label.v2 { background: var(--sage); color: #406050; }
+  .convert-label.v3 { background: var(--blush); color: #a06060; }
+
+  .convert-input {
+    flex: 1;
+  }
+
+  .convert-arrow {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 18px;
+    padding: 4px 0;
+    margin-left: 45px;
+  }
+
+  /* アイデアグリッド */
+  .idea-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .idea-item label {
+    font-size: 12px;
+    color: var(--text-light);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* 次の一歩 */
+  .action-box {
+    background: linear-gradient(135deg, var(--blush) 0%, var(--sage) 100%);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-top: 10px;
+  }
+
+  .action-box .action-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .action-box textarea {
+    background: rgba(255,255,255,0.7);
+    border-color: rgba(255,255,255,0.8);
+  }
+
+  /* フッター */
+  .footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    font-size: 12px;
+    color: var(--text-light);
+    line-height: 2;
+    animation: fadeUp 0.8s ease 0.7s both;
+  }
+
+  .footer .brand {
+    font-weight: 700;
+    color: var(--text);
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  /* 区切り線 */
+  .section-divider {
+    border: none;
+    border-top: 1.5px dashed var(--border);
+    margin: 20px 0;
+  }
+
+  /* hint */
+  .hint {
+    font-size: 12px;
+    color: var(--text-light);
+    background: var(--cream);
+    border-left: 3px solid var(--blush-dark);
+    padding: 8px 12px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 14px;
+    line-height: 1.7;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media print {
+    body { padding: 0; background: white; }
+    .work-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <div class="header">
+    <span class="tag">🌱 AIシフト時代のワークシート</span>
+    <h1>AIシフト時代に<br><span>「自分の軸」</span>を見つける<br>整理ワークシート</h1>
+    <div class="divider"></div>
+    <p class="sub">〜やりたいことを形にする設計ワーク〜<br>
+    モカ＆こころん♪ 心を整える伴奏者</p>
+  </div>
+
+  <!-- イントロ -->
+  <div class="intro">
+    🦥 <strong>このワークシートの使い方</strong><br>
+    今日は「考える」より「書く」ことを大切にしてください。<br>
+    正解はありません。頭の中にあるものをそのまま出すことが、整理への第一歩です。<br><br>
+    書きながら気づいたこと、シェアしながら見えてきたことを大切にしましょう🌿
+  </div>
+
+  <!-- フロー -->
+  <div class="flow">
+    <div class="flow-item active">STEP 1<br><small>自分を知る</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">STEP 2<br><small>価値に変換</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">STEP 3<br><small>形にする</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">STEP 4<br><small>次の一歩</small></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="work-card">
+    <div class="work-header">
+      <span class="step-badge badge-blush">STEP 1</span>
+      <span class="work-title">自分を知る｜今の状態を整理する</span>
+    </div>
+    <p class="work-desc">まず「今の自分」をそのまま書き出してみましょう。評価や判断はしなくてOKです。</p>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">1</span>
+        今やっていること（副業・仕事・活動など）を書いてください
+      </div>
+      <textarea rows="3" placeholder="例）ハンドメイド販売・SNS発信・ライティング副業…"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">2</span>
+        得意なこと・人からよく頼まれることは？
+      </div>
+      <textarea rows="3" placeholder="例）話を聞くのが得意・文章をまとめるのが早い・教えるのが好き…"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">3</span>
+        好きなこと・時間を忘れてやっていること
+      </div>
+      <textarea rows="3" placeholder="例）デザイン・料理・子育て・学ぶこと・話すこと…"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon">4</span>
+        これまで人に「ありがとう」と言われた経験
+      </div>
+      <textarea rows="3" placeholder="例）悩みを聞いて整理してあげた・資料をわかりやすくまとめた…"></textarea>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="work-card">
+    <div class="work-header">
+      <span class="step-badge badge-peach">STEP 2</span>
+      <span class="work-title">価値に変換｜「誰の何に役立つか」を見つける</span>
+    </div>
+    <p class="work-desc">STEP1で出てきたものを「誰かの役に立つ視点」で見直してみましょう。</p>
+
+    <div class="hint">
+      💡 ヒント：あなたが「当たり前」と思っていることが、誰かにとっての「すごい価値」かもしれません
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon green">5</span>
+        あなたの得意・好きなことで、困っている人はどんな人？
+      </div>
+      <textarea rows="3" placeholder="例）仕事と家事で忙しくて自分の時間がない30代女性…"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon green">6</span>
+        その人が「本当に解決したい悩み」は何だと思う？
+      </div>
+      <textarea rows="3" placeholder="例）自分が何をやりたいかわからなくなってきた・疲れているのに休めない…"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon green">7</span>
+        あなたならその悩みにどんなサポートができそう？
+      </div>
+      <textarea rows="3" placeholder="例）気持ちを整理する時間をつくれる・一緒に考えながら言語化できる…"></textarea>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="work-card">
+    <div class="work-header">
+      <span class="step-badge badge-sage">STEP 3</span>
+      <span class="work-title">形にする｜やりたいこと → 価値 → カタチへ</span>
+    </div>
+    <p class="work-desc">STEP1・2で出てきたものをつなげて「自分らしい商品・発信の形」を考えてみましょう。</p>
+
+    <div class="convert-flow">
+      <div class="convert-row">
+        <div class="convert-label">やりたいこと</div>
+        <div class="convert-input">
+          <textarea rows="2" placeholder="例）感情を整えることに関わりたい・人の話を聞きたい…"></textarea>
+        </div>
+      </div>
+      <div class="convert-arrow">↓</div>
+      <div class="convert-row">
+        <div class="convert-label v2">届ける価値</div>
+        <div class="convert-input">
+          <textarea rows="2" placeholder="例）自分の気持ちを整理できる・次の一歩が見えてくる…"></textarea>
+        </div>
+      </div>
+      <div class="convert-arrow">↓</div>
+      <div class="convert-row">
+        <div class="convert-label v3">カタチ（案）</div>
+        <div class="convert-input">
+          <textarea rows="2" placeholder="例）オンライン個別セッション・ワークショップ・SNS発信・note有料記事…"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <p class="question-label" style="margin-bottom: 12px;">
+      <span class="q-icon peach">✦</span>
+      小さく始めるとしたら？（アイデア出し）
+    </p>
+    <div class="idea-grid">
+      <div class="idea-item">
+        <label>無料でできることから</label>
+        <textarea rows="3" placeholder="例）SNSで発信・知人に話す…"></textarea>
+      </div>
+      <div class="idea-item">
+        <label>モニターでやってみるなら</label>
+        <textarea rows="3" placeholder="例）無料体験セッション・少人数ワーク…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="work-card">
+    <div class="work-header">
+      <span class="step-badge badge-lavender">STEP 4</span>
+      <span class="work-title">次の一歩を決める</span>
+    </div>
+    <p class="work-desc">「考える」から「動く」へ。今日この場で決める小さな一歩を書いておきましょう。</p>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon purple">8</span>
+        今日の気づき・新しく見えてきたこと
+      </div>
+      <textarea rows="3" placeholder="シェアタイムの前に、まず自分の言葉でメモしておきましょう…"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon purple">9</span>
+        今日から1週間でやってみること（小さくてOK）
+      </div>
+      <textarea rows="3" placeholder="例）インスタで1投稿してみる・知人に話してみる・プロフィール文を書き直す…"></textarea>
+    </div>
+
+    <div class="action-box">
+      <div class="action-title">🌱 私の「次の一歩」宣言</div>
+      <textarea rows="2" placeholder="私は________することで、________な人の役に立ちたい。まず___________からやってみます！"></textarea>
+    </div>
+  </div>
+
+  <!-- シェアタイム -->
+  <div class="work-card" style="border: 2px solid var(--blush-dark);">
+    <div class="work-header">
+      <span class="step-badge badge-green">💬 シェア</span>
+      <span class="work-title">シェア＆フィードバックタイム</span>
+    </div>
+    <p class="work-desc">気になった質問・気づき・「次の一歩」を参加者でシェアしましょう。<br>
+    人の話を聞いて気づくこともたくさんあります。聴くことも大切な時間です🌿</p>
+
+    <div class="question-block">
+      <div class="question-label">
+        <span class="q-icon green">✎</span>
+        他の人のシェアを聞いて、気づいたこと・もらったヒント
+      </div>
+      <textarea rows="4" placeholder="メモしておきましょう…"></textarea>
+    </div>
+  </div>
+
+  <!-- フッター -->
+  <div class="footer">
+    <div class="brand">🦥 モカ＆こころん♪ 心を整える伴奏者</div>
+    AIシフト時代に「自分の軸」を見つける整理会<br><br>
+    <em>自分の考えを整理し、一緒に「次の一歩」を見つけましょう 🚶‍➡️</em>
+  </div>
+
+</div>
+</body>
+</html>
