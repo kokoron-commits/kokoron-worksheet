@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LINEステップ配信 設計書｜Loves Life</title>
+<style>
+  :root {
+    --cream: #faf6f0;
+    --sage: #ccddd0;
+    --sage-dark: #6a9e80;
+    --blush: #f2ddd5;
+    --blush-dark: #d4847a;
+    --text: #3a3030;
+    --text-light: #7a6868;
+    --white: #fffef9;
+    --border: #e0d8d0;
+    --green: #4a8060;
+    --tag-bg: #e8f4ec;
+    --tag-color: #2d6e50;
+    --step0: #fdecd8;
+    --step1: #e8f4d8;
+    --step2: #d8eef4;
+    --step3: #ecddf8;
+    --step4: #fde8e8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    padding: 32px 16px 80px;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .container { max-width: 860px; margin: 0 auto; }
+
+  /* ヘッダー */
+  .header {
+    background: linear-gradient(135deg, var(--sage) 0%, #e8f4ec 100%);
+    border-radius: 20px;
+    padding: 36px 40px;
+    margin-bottom: 32px;
+    border: 1.5px solid var(--sage-dark);
+  }
+  .header h1 { font-size: 22px; font-weight: 700; color: var(--green); margin-bottom: 6px; }
+  .header .subtitle { font-size: 14px; color: var(--text-light); }
+  .header .meta { margin-top: 16px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .meta-item { background: white; border-radius: 8px; padding: 6px 14px; font-size: 12px; color: var(--text-light); border: 1px solid var(--border); }
+  .meta-item strong { color: var(--text); }
+
+  /* セクションタイトル */
+  .section { margin-bottom: 32px; }
+  .section-title {
+    font-size: 16px; font-weight: 700; color: var(--green);
+    border-left: 4px solid var(--sage-dark);
+    padding-left: 12px; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* カード */
+  .card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 24px 28px;
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  /* フロー図 */
+  .flow-wrap { overflow-x: auto; padding-bottom: 8px; }
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    min-width: 700px;
+    margin-bottom: 8px;
+  }
+  .flow-box {
+    flex: 1;
+    text-align: center;
+    padding: 12px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .flow-arrow { font-size: 18px; color: var(--text-light); padding: 0 4px; flex-shrink: 0; }
+  .f0 { background: var(--step0); color: #a06030; }
+  .f1 { background: var(--step1); color: #3a6020; }
+  .f2 { background: var(--step2); color: #205060; }
+  .f3 { background: var(--step3); color: #602080; }
+  .f4 { background: var(--step4); color: #802020; }
+  .ftag { background: var(--tag-bg); color: var(--tag-color); }
+
+  /* タグ */
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--tag-color);
+    border: 1px solid #a8d8b8;
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 2px;
+  }
+
+  /* ステップカード */
+  .step-card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 2px solid var(--border);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .step-header {
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .step-badge {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .step-title { font-weight: 700; font-size: 15px; }
+  .step-timing { font-size: 12px; color: var(--text-light); margin-left: auto; }
+  .step-body { padding: 0 24px 24px; }
+
+  .s0 .step-header { background: var(--step0); } .s0 .step-badge { background: #f0c090; color: #a06030; }
+  .s1 .step-header { background: var(--step1); } .s1 .step-badge { background: #b8d890; color: #3a6020; }
+  .s2 .step-header { background: var(--step2); } .s2 .step-badge { background: #90c8d8; color: #205060; }
+  .s3 .step-header { background: var(--step3); } .s3 .step-badge { background: #c890e0; color: #602080; }
+  .s4 .step-header { background: var(--step4); } .s4 .step-badge { background: #e09090; color: #802020; }
+
+  /* メッセージボックス */
+  .msg-box {
+    background: #f0f8f4;
+    border: 1px solid #c0dcc8;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    white-space: pre-line;
+    font-size: 13.5px;
+    line-height: 2;
+    color: var(--text);
+    position: relative;
+  }
+  .msg-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--sage-dark);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .copy-note {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* テーブル */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    background: var(--sage);
+    color: var(--green);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 700;
+  }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8faf8; }
+
+  /* チェックリスト */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 13px;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box {
+    width: 18px; height: 18px;
+    border: 2px solid var(--sage-dark);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .check-cat {
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    background: var(--sage-dark);
+    border-radius: 4px;
+    padding: 1px 6px;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+
+  /* キーワードバッジ */
+  .kw {
+    display: inline-block;
+    background: #fff3e8;
+    color: #a06030;
+    border: 1px solid #f0c090;
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 2px;
+    font-family: monospace;
+  }
+
+  /* 注記 */
+  .note {
+    background: #fffbe8;
+    border-left: 3px solid #e0c060;
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    font-size: 12.5px;
+    color: #806030;
+    margin: 10px 0;
+  }
+
+  /* 2カラム */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* フッター */
+  .footer { text-align: center; padding: 40px 0 0; font-size: 12px; color: var(--text-light); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ヘッダー -->
+<div class="header">
+  <h1>🌿 LINEステップ配信 設計書</h1>
+  <div class="subtitle">3日間やさしいジャーナリング体験｜エルメ設定用</div>
+  <div class="meta">
+    <div class="meta-item"><strong>作成者：</strong>モカ（Loves Life）</div>
+    <div class="meta-item"><strong>構築担当：</strong>わっしーさん</div>
+    <div class="meta-item"><strong>ツール：</strong>エルメ（L Message）</div>
+    <div class="meta-item"><strong>対象：</strong>LINE公式アカウント登録者</div>
+  </div>
+</div>
+
+<!-- 全体フロー -->
+<div class="section">
+  <div class="section-title">📊 全体フロー（一目でわかる）</div>
+  <div class="card">
+    <div class="flow-wrap">
+      <div class="flow">
+        <div class="flow-box f0">🔑 キーワード送信<br>「ジャーナリング」</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box f0">STEP0<br>即時<br>DAY1配信</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box f1">STEP1<br>24時間後<br>DAY2配信</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box f2">STEP2<br>48時間後<br>DAY3配信</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box f3">STEP3<br>72時間後<br>フォロー</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box f4">🔑「朝習慣」<br>送信で<br>先行案内</div>
+      </div>
+    </div>
+    <div class="note">⚠️ 「3日間体験開始」または「3日間体験完了」タグ付きの方には重複配信しない設定をお願いします</div>
+  </div>
+</div>
+
+<!-- 発火条件 -->
+<div class="section">
+  <div class="section-title">🔑 発火キーワード設定</div>
+  <div class="card">
+    <p style="margin-bottom:12px; font-weight:700;">メインキーワード（必須）</p>
+    <span class="kw">ジャーナリング</span>
+    <p style="margin: 12px 0 8px; font-weight:700;">表記ゆれ対応（可能であれば追加）</p>
+    <span class="kw">じゃーなりんぐ</span>
+    <span class="kw">Journaling</span>
+    <span class="kw">journaling</span>
+    <span class="kw">日記</span>
+    <span class="kw">書く習慣</span>
+    <div class="note" style="margin-top:12px;">📝 誘導文では「ジャーナリング」に統一しています。表記ゆれ対応はできる範囲でOKです。</div>
+  </div>
+</div>
+
+<!-- タグ設定 -->
+<div class="section">
+  <div class="section-title">🏷️ タグ設定一覧</div>
+  <div class="card" style="padding:0; overflow:hidden;">
+    <table>
+      <tr>
+        <th>タグ名</th>
+        <th>付与タイミング</th>
+        <th>目的</th>
+      </tr>
+      <tr>
+        <td><span class="tag">ジャーナリング興味あり</span></td>
+        <td>「ジャーナリング」送信時</td>
+        <td>興味層の把握</td>
+      </tr>
+      <tr>
+        <td><span class="tag">3日間体験開始</span></td>
+        <td>STEP0配信時</td>
+        <td>体験開始者の管理・重複防止</td>
+      </tr>
+      <tr>
+        <td><span class="tag">DAY1配信済み</span></td>
+        <td>STEP0送信後</td>
+        <td>配信管理</td>
+      </tr>
+      <tr>
+        <td><span class="tag">DAY2配信済み</span></td>
+        <td>STEP1送信後</td>
+        <td>配信管理</td>
+      </tr>
+      <tr>
+        <td><span class="tag">DAY3配信済み</span></td>
+        <td>STEP2送信後</td>
+        <td>配信管理</td>
+      </tr>
+      <tr>
+        <td><span class="tag">3日間体験完了</span></td>
+        <td>STEP3送信後</td>
+        <td>完了者の把握・重複防止</td>
+      </tr>
+      <tr>
+        <td><span class="tag">朝習慣興味あり</span></td>
+        <td>「朝習慣」送信時</td>
+        <td>有料サブスク見込み層</td>
+      </tr>
+      <tr>
+        <td><span class="tag">質問・相談あり</span></td>
+        <td>質問相談メニュータップ時</td>
+        <td>個別対応候補</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ステップ配信詳細 -->
+<div class="section">
+  <div class="section-title">📨 ステップ配信 詳細</div>
+
+  <!-- STEP0 -->
+  <div class="step-card s0">
+    <div class="step-header">
+      <span class="step-badge">STEP 0</span>
+      <span class="step-title">開始メッセージ＋DAY1</span>
+      <span class="step-timing">⏰ キーワード送信後 即時</span>
+    </div>
+    <div class="step-body">
+      <p style="margin-bottom:8px;"><strong>付与タグ：</strong>
+        <span class="tag">ジャーナリング興味あり</span>
+        <span class="tag">3日間体験開始</span>
+        <span class="tag">DAY1配信済み</span>
+      </p>
+      <div class="msg-label">📷 画像</div>
+      <div class="msg-box">DAY1「気づく」画像を送付</div>
+      <div class="msg-label">💬 メッセージ文</div>
+      <div class="msg-box">やさしい時間に興味を持ってくださって
+ありがとうございます🌿
+
+これから3日間、
+「ジャーナリング体験」をお届けします✨
+
+無理なく、自分のペースで大丈夫です。
+
+今日はまず
+"今の気持ちに気づくこと"から
+はじめてみましょう🕊️
+
+画像の問いを見ながら、
+1行だけでも書いてみてくださいね。</div>
+    </div>
+  </div>
+
+  <!-- STEP1 -->
+  <div class="step-card s1">
+    <div class="step-header">
+      <span class="step-badge">STEP 1</span>
+      <span class="step-title">DAY2配信</span>
+      <span class="step-timing">⏰ STEP0から 24時間後</span>
+    </div>
+    <div class="step-body">
+      <p style="margin-bottom:8px;"><strong>付与タグ：</strong>
+        <span class="tag">DAY2配信済み</span>
+      </p>
+      <div class="msg-label">📷 画像</div>
+      <div class="msg-box">DAY2「整える」画像を送付</div>
+      <div class="msg-label">💬 メッセージ文</div>
+      <div class="msg-box">昨日は書いてみてどうでしたか？🌿
+
+今日は少しだけ、
+気になっていることに
+やさしく目を向けてみましょう。
+
+答えを出そうとしなくて大丈夫です。
+
+そのまま言葉にしてみることで、
+少しずつ心の中が見えてきます🕊️</div>
+    </div>
+  </div>
+
+  <!-- STEP2 -->
+  <div class="step-card s2">
+    <div class="step-header">
+      <span class="step-badge">STEP 2</span>
+      <span class="step-title">DAY3配信</span>
+      <span class="step-timing">⏰ STEP0から 48時間後</span>
+    </div>
+    <div class="step-body">
+      <p style="margin-bottom:8px;"><strong>付与タグ：</strong>
+        <span class="tag">DAY3配信済み</span>
+      </p>
+      <div class="msg-label">📷 画像</div>
+      <div class="msg-box">DAY3「本音に気づく」画像を送付</div>
+      <div class="msg-label">💬 メッセージ文</div>
+      <div class="msg-box">3日目ですね🌿
+
+ここまで続けてくださって
+ありがとうございます。
+
+今日は、
+「本当はどうしたい？」
+とやさしく問いかけてみましょう。
+
+すぐに答えが出なくても大丈夫です。
+
+ふっと浮かんだ言葉や感覚を
+大切にしてみてください🕊️</div>
+    </div>
+  </div>
+
+  <!-- STEP3 -->
+  <div class="step-card s3">
+    <div class="step-header">
+      <span class="step-badge">STEP 3</span>
+      <span class="step-title">体験後フォロー＋朝習慣導線</span>
+      <span class="step-timing">⏰ STEP0から 72時間後</span>
+    </div>
+    <div class="step-body">
+      <p style="margin-bottom:8px;"><strong>付与タグ：</strong>
+        <span class="tag">3日間体験完了</span>
+      </p>
+      <div class="msg-label">💬 メッセージ文</div>
+      <div class="msg-box">3日間のジャーナリング体験、
+おつかれさまでした🌿
+
+やってみて、いかがでしたか？
+
+ほんの少しでも
+・自分の気持ちに気づけた
+・頭の中が整理された
+・書く時間が心地よかった
+
+そんな感覚があれば、
+それは大切な一歩です🕊️
+
+もし、
+「もう少し続けてみたい」
+「一人だと続かないかも」
+「朝の習慣にしていきたい」
+
+そう感じた方は、
+朝のやさしい習慣について
+先行案内をお届けします。
+
+気になる方は
+「朝習慣」と送ってください🌿</div>
+    </div>
+  </div>
+
+  <!-- 重複時 -->
+  <div class="step-card s4">
+    <div class="step-header">
+      <span class="step-badge">⚠️ 重複防止</span>
+      <span class="step-title">体験済みユーザーへの返信</span>
+      <span class="step-timing">条件：「3日間体験開始」または「完了」タグあり</span>
+    </div>
+    <div class="step-body">
+      <div class="note">「ジャーナリング」と再送信されてもステップ配信が重複しないよう設定。代わりに以下を返信。</div>
+      <div class="msg-label">💬 返信文</div>
+      <div class="msg-box">ジャーナリング体験に
+ご興味を持ってくださってありがとうございます🌿
+
+3日間体験はすでにお届け済みです。
+
+もう一度見たい場合や、
+気になることがあれば
+このままメッセージしてくださいね🕊️</div>
+    </div>
+  </div>
+</div>
+
+<!-- 朝習慣キーワード -->
+<div class="section">
+  <div class="section-title">🌸 「朝習慣」キーワード返信設定</div>
+  <div class="card">
+    <p><strong>発火キーワード：</strong><span class="kw">朝習慣</span></p>
+    <p style="margin: 8px 0;"><strong>付与タグ：</strong><span class="tag">朝習慣興味あり</span></p>
+    <div class="msg-label" style="margin-top:12px;">💬 返信文</div>
+    <div class="msg-box">ありがとうございます🌿
+
+朝のやさしい習慣に
+興味を持ってくださってうれしいです。
+
+今後、
+瞑想とジャーナリングを一緒に続ける
+朝の習慣づくりについて
+先行案内をお届けします🕊️
+
+詳細が整い次第、
+こちらのLINEでご案内しますね✨</div>
+    <div class="note">📝 現時点では正式募集前のため、価格・開始日・詳細は記載なしでOKです。</div>
+  </div>
+</div>
+
+<!-- リッチメニュー -->
+<div class="section">
+  <div class="section-title">📱 リッチメニュー連動設定</div>
+  <div class="two-col">
+    <div class="card">
+      <p style="font-weight:700; margin-bottom:12px;">📓 「ジャーナリング」タップ時</p>
+      <div class="msg-box">📓 ジャーナリングとは
+
+思ったことを
+そのまま紙に書き出すこと。
+
+答えを出すためではなく
+「自分の気持ちに気づく」
+ためのやさしい習慣です🌿
+
+ほんの少し書くだけでも、
+気持ちがふっと整っていきます🕊️
+
+気になる方は
+「ジャーナリング」と送ってみてください🌿
+
+やさしい体験をご案内します✨</div>
+    </div>
+    <div class="card">
+      <p style="font-weight:700; margin-bottom:12px;">💬 「質問・相談」タップ時</p>
+      <p style="font-size:12px; color: var(--text-light); margin-bottom:8px;">付与タグ：<span class="tag">質問・相談あり</span></p>
+      <div class="msg-box">メッセージありがとうございます🌿
+
+このままトーク画面から
+気軽に話しかけてくださいね🕊️
+
+・イベントについて💬
+・ジャーナリングのこと
+・習慣づくりについて
+
+うまく言葉になっていなくても大丈夫です😊
+
+やさしく整えるお手伝いができたら
+うれしいです✨</div>
+    </div>
+  </div>
+</div>
+
+<!-- 設定チェックリスト -->
+<div class="section">
+  <div class="section-title">✅ 設定チェックリスト（わっしーさん用）</div>
+  <div class="card">
+    <ul class="checklist">
+      <li><div class="check-box"></div><span class="check-cat">キーワード</span>「ジャーナリング」キーワードトリガー設定</li>
+      <li><div class="check-box"></div><span class="check-cat">キーワード</span>表記ゆれ対応キーワード追加（可能な範囲で）</li>
+      <li><div class="check-box"></div><span class="check-cat">タグ</span>8種のタグ作成（名前のみ）</li>
+      <li><div class="check-box"></div><span class="check-cat">STEP0</span>即時配信：DAY1画像＋メッセージ＋タグ3種</li>
+      <li><div class="check-box"></div><span class="check-cat">STEP1</span>24時間後：DAY2画像＋メッセージ＋タグ付与</li>
+      <li><div class="check-box"></div><span class="check-cat">STEP2</span>48時間後：DAY3画像＋メッセージ＋タグ付与</li>
+      <li><div class="check-box"></div><span class="check-cat">STEP3</span>72時間後：フォローメッセージ＋タグ付与</li>
+      <li><div class="check-box"></div><span class="check-cat">重複防止</span>体験済みタグあり→重複配信せず返信メッセージ</li>
+      <li><div class="check-box"></div><span class="check-cat">朝習慣</span>「朝習慣」キーワード返信＋タグ付与設定</li>
+      <li><div class="check-box"></div><span class="check-cat">リッチメニュー</span>「ジャーナリング」タップ返信設定</li>
+      <li><div class="check-box"></div><span class="check-cat">リッチメニュー</span>「質問・相談」タップ返信＋タグ設定</li>
+      <li><div class="check-box"></div><span class="check-cat">テスト</span>動作テスト（全STEP・重複防止・キーワード）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- フッター -->
+<div class="footer">
+  🌿 Loves Life｜モカ＆こころん♪<br>
+  ご不明点はLINEまたはメッセージでお気軽にどうぞ
+</div>
+
+</div>
+</body>
+</html>
