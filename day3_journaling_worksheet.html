@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAY3 これからどう生きたいか｜Loves Life</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Shippori+Mincho:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf8f4;
+    --sky: #dff0f5;
+    --sky-dark: #4a98b4;
+    --mint: #d8f0e8;
+    --mint-dark: #4aaa80;
+    --gold: #fdf0d4;
+    --gold-dark: #c4882a;
+    --text: #2e2e2e;
+    --text-light: #8a8070;
+    --white: #fffef9;
+    --border: #e4ddd4;
+    --blush: #fce8e0;
+    --blush-dark: #c47060;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    padding: 24px 16px 80px;
+    background-image:
+      radial-gradient(circle at 10% 5%, rgba(223,240,245,0.6) 0%, transparent 40%),
+      radial-gradient(circle at 90% 90%, rgba(216,240,232,0.5) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(253,240,212,0.3) 0%, transparent 60%);
+  }
+  .container { max-width: 640px; margin: 0 auto; }
+
+  /* 進捗バー */
+  .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--sky-dark), var(--mint-dark)); width: 0%; transition: width .2s; z-index: 100; }
+
+  /* DAYバッジ */
+  .day-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(135deg, var(--sky-dark), var(--mint-dark));
+    color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .12em;
+    padding: 4px 14px; border-radius: 20px; margin-bottom: 16px;
+  }
+
+  /* ヘッダー */
+  .header {
+    text-align: center;
+    padding: 36px 20px 28px;
+    animation: fadeUp .7s ease both;
+  }
+  .header h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 22px; font-weight: 600; line-height: 1.7;
+    color: var(--text); margin-bottom: 10px;
+  }
+  .header h1 span.accent { color: var(--sky-dark); }
+  .header h1 span.accent2 { color: var(--mint-dark); }
+  .header .sub { font-size: 12px; color: var(--text-light); line-height: 2; }
+  .divider { width: 40px; height: 2px; background: linear-gradient(90deg, var(--sky-dark), var(--mint-dark)); margin: 14px auto; border-radius: 2px; }
+
+  /* こころんイラスト */
+  .kokoron-wrap {
+    display: flex; justify-content: center; margin: 0 auto 8px;
+  }
+
+  /* カード */
+  .card {
+    background: var(--white); border-radius: 20px;
+    padding: 24px 24px; border: 1px solid var(--border);
+    margin-bottom: 20px;
+    animation: fadeUp .7s ease both;
+  }
+  .card:nth-child(1){animation-delay:.1s}
+  .card:nth-child(2){animation-delay:.15s}
+  .card:nth-child(3){animation-delay:.2s}
+  .card:nth-child(4){animation-delay:.25s}
+  .card:nth-child(5){animation-delay:.3s}
+
+  /* ステップバッジ */
+  .step-label {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    padding: 3px 12px; border-radius: 20px; margin-bottom: 12px;
+  }
+  .sl-sky  { background: var(--sky);  color: var(--sky-dark); }
+  .sl-mint { background: var(--mint); color: var(--mint-dark); }
+  .sl-gold { background: var(--gold); color: var(--gold-dark); }
+
+  .card-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 16px; font-weight: 600; margin-bottom: 6px; line-height: 1.6;
+  }
+  .card-hint { font-size: 12px; color: var(--text-light); margin-bottom: 16px; line-height: 1.9; }
+
+  /* 選択ボタン */
+  .select-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .sel-btn {
+    background: var(--cream); border: 1.5px solid var(--border);
+    border-radius: 30px; padding: 8px 14px;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 13px; color: var(--text-light);
+    cursor: pointer; transition: all .2s; user-select: none;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .sel-btn:hover { border-color: var(--sky-dark); color: var(--text); background: var(--sky); }
+  .sel-btn.active-sky  { background: var(--sky);  border-color: var(--sky-dark);  color: var(--sky-dark);  font-weight: 700; transform: scale(1.04); }
+  .sel-btn.active-mint { background: var(--mint); border-color: var(--mint-dark); color: var(--mint-dark); font-weight: 700; transform: scale(1.04); }
+  .sel-btn.active-gold { background: var(--gold); border-color: var(--gold-dark); color: var(--gold-dark); font-weight: 700; transform: scale(1.04); }
+
+  /* テキストエリア */
+  .q-block { margin-bottom: 18px; }
+  .q-label {
+    font-size: 13px; font-weight: 700; color: var(--text);
+    margin-bottom: 8px; display: flex; align-items: flex-start; gap: 6px; line-height: 1.6;
+  }
+  .q-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  }
+  .q-num.sky  { background: var(--sky);  color: var(--sky-dark); }
+  .q-num.mint { background: var(--mint); color: var(--mint-dark); }
+  .q-num.gold { background: var(--gold); color: var(--gold-dark); }
+
+  textarea {
+    width: 100%; border: 1.5px solid var(--border); border-radius: 12px;
+    padding: 12px 14px; font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 14px; color: var(--text); background: var(--cream);
+    resize: none; transition: border-color .2s; line-height: 1.8;
+  }
+  textarea:focus { outline: none; border-color: var(--sky-dark); background: var(--white); }
+  textarea::placeholder { color: #c0b8a8; }
+
+  hr { border: none; border-top: 1.5px dashed var(--border); margin: 18px 0; }
+
+  /* 一歩カード */
+  .step-action-card {
+    background: linear-gradient(135deg, var(--sky) 0%, var(--mint) 60%, var(--gold) 100%);
+    border-radius: 20px; padding: 26px 24px; margin-bottom: 20px;
+    animation: fadeUp .7s ease .35s both;
+    border: 1px solid rgba(74,152,180,.15);
+  }
+  .step-action-card .sa-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 16px; font-weight: 600; margin-bottom: 6px; color: var(--text);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .step-action-card .sa-hint { font-size: 12px; color: var(--text-light); margin-bottom: 14px; line-height: 1.9; }
+  .step-action-card textarea { background: rgba(255,255,255,.75); border-color: rgba(255,255,255,.9); }
+  .step-action-card textarea:focus { background: rgba(255,255,255,.9); border-color: var(--sky-dark); }
+
+  /* ブリッジカード */
+  .bridge-card {
+    background: var(--white);
+    border: 2px solid var(--mint-dark);
+    border-radius: 20px; padding: 26px 24px; margin-bottom: 20px;
+    text-align: center;
+    animation: fadeUp .7s ease .45s both;
+  }
+  .bridge-card .bridge-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+  .bridge-card .bridge-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 16px; font-weight: 600; color: var(--mint-dark); margin-bottom: 10px;
+  }
+  .bridge-card .bridge-body { font-size: 13px; color: var(--text-light); line-height: 2; }
+  .bridge-card .bridge-cta {
+    display: inline-block; margin-top: 16px;
+    background: linear-gradient(135deg, var(--sky-dark), var(--mint-dark));
+    color: #fff; font-size: 13px; font-weight: 700;
+    padding: 12px 28px; border-radius: 30px; text-decoration: none;
+    letter-spacing: .05em;
+  }
+  .bridge-card .bridge-cta:hover { opacity: .85; }
+
+  /* フッター */
+  .footer { text-align: center; padding: 28px 0 0; font-size: 12px; color: var(--text-light); line-height: 2; }
+  .footer .brand { font-weight: 700; color: var(--text); font-size: 13px; margin-bottom: 4px; }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <div class="header">
+    <span class="day-badge">✨ DAY 3 / FINAL DAY</span>
+
+    <!-- こころんイラスト（ナマケモノ・水彩風SVG） -->
+    <div class="kokoron-wrap">
+      <svg width="130" height="130" viewBox="0 0 130 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- 背景のやわらかい円 -->
+        <circle cx="65" cy="65" r="58" fill="#dff0f5" opacity="0.6"/>
+        <!-- 体（丸くてふっくら） -->
+        <ellipse cx="65" cy="78" rx="30" ry="28" fill="#c8dab0" opacity="0.9"/>
+        <!-- お腹（薄い色） -->
+        <ellipse cx="65" cy="82" rx="18" ry="17" fill="#edf6e4" opacity="0.85"/>
+        <!-- 顔 -->
+        <circle cx="65" cy="52" r="24" fill="#d4c9a0" opacity="0.95"/>
+        <!-- 耳（左） -->
+        <circle cx="43" cy="38" r="10" fill="#c8b890" opacity="0.9"/>
+        <circle cx="43" cy="38" r="6" fill="#e8d8b8" opacity="0.8"/>
+        <!-- 耳（右） -->
+        <circle cx="87" cy="38" r="10" fill="#c8b890" opacity="0.9"/>
+        <circle cx="87" cy="38" r="6" fill="#e8d8b8" opacity="0.8"/>
+        <!-- 目（細目・幸せそう） -->
+        <path d="M54 52 Q57 49 60 52" stroke="#5a4a30" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M70 52 Q73 49 76 52" stroke="#5a4a30" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <!-- 鼻 -->
+        <ellipse cx="65" cy="57" rx="3" ry="2" fill="#b09070" opacity="0.7"/>
+        <!-- 口（にっこり） -->
+        <path d="M58 62 Q65 68 72 62" stroke="#b09070" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <!-- 腕（左・木にぶら下がるポーズ→ここでは上に伸ばす） -->
+        <path d="M40 68 Q30 55 28 42" stroke="#c8b890" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.9"/>
+        <!-- 腕（右） -->
+        <path d="M90 68 Q100 55 102 42" stroke="#c8b890" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.9"/>
+        <!-- 手先（左） -->
+        <circle cx="26" cy="40" r="5" fill="#c8b890" opacity="0.85"/>
+        <!-- 手先（右） -->
+        <circle cx="104" cy="40" r="5" fill="#c8b890" opacity="0.85"/>
+        <!-- 星（周り） -->
+        <text x="18" y="30" font-size="11" fill="#f0c84a" opacity="0.8">★</text>
+        <text x="100" y="25" font-size="9" fill="#4aaa80" opacity="0.7">✦</text>
+        <text x="108" y="88" font-size="8" fill="#4a98b4" opacity="0.6">✦</text>
+        <text x="10" y="85" font-size="10" fill="#f0c84a" opacity="0.6">✦</text>
+      </svg>
+    </div>
+
+    <h1>これからどう<span class="accent">生きたい</span>か<br>見つける<span class="accent2">ジャーナリング</span></h1>
+    <div class="divider"></div>
+    <p class="sub">3日間のしめくくり。答えは心の中にあります🌿<br>浮かんだことを、そのままここに書いてみましょう。</p>
+  </div>
+
+  <!-- Q1: 本当はどんな時間を過ごしたい？ -->
+  <div class="card">
+    <div class="step-label sl-sky">💭 QUESTION 1</div>
+    <div class="card-title">本当はどんな時間を過ごしたい？</div>
+    <div class="card-hint">理想の一日を思い浮かべてみて。どんな気持ちで過ごしていたい？<br>「こうしなきゃ」じゃなく、「こうしたい」で考えてみましょう。</div>
+
+    <div class="select-grid" id="q1-tags">
+      <button class="sel-btn" onclick="toggleBtn(this,'active-sky')">🌅 のんびり過ごしたい</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-sky')">💪 達成感を感じたい</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-sky')">😂 笑って過ごしたい</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-sky')">🤝 誰かとつながりたい</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-sky')">🌿 自分を大切にしたい</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-sky')">✨ 好きなことに集中したい</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-sky')">📖 学び続けたい</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-sky')">🏡 家族との時間を大切に</button>
+    </div>
+
+    <hr>
+
+    <div class="q-block">
+      <div class="q-label">
+        <span class="q-num sky">→</span>
+        <span>もう少し具体的に、どんな日々を想像しましたか？</span>
+      </div>
+      <textarea rows="4" placeholder="例）朝、ゆっくりコーヒーを飲みながら自分の時間を持ちたい。仕事は好きなことを中心に…"></textarea>
+    </div>
+  </div>
+
+  <!-- Q2: 大切にしたいことは？ -->
+  <div class="card">
+    <div class="step-label sl-mint">🌱 QUESTION 2</div>
+    <div class="card-title">そのために大切にしたいことは？</div>
+    <div class="card-hint">理想の時間を過ごすために、あなたが「これを守りたい」「これを増やしたい」と感じるものは何ですか？</div>
+
+    <div class="select-grid" id="q2-tags">
+      <button class="sel-btn" onclick="toggleBtn(this,'active-mint')">⏰ 朝の時間を整える</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-mint')">🧘 心の余白をつくる</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-mint')">🙅 断る勇気を持つ</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-mint')">💬 本音で話す</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-mint')">🌙 睡眠・休息を優先する</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-mint')">📵 SNSと距離を置く</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-mint')">🏃 体を動かす習慣</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-mint')">📝 自分と向き合う時間</button>
+    </div>
+
+    <hr>
+
+    <div class="q-block">
+      <div class="q-label">
+        <span class="q-num mint">→</span>
+        <span>大切にしたいこと、あなたの言葉で書いてみましょう</span>
+      </div>
+      <textarea rows="4" placeholder="例）毎朝少しだけ、誰にも邪魔されない自分だけの時間を確保すること…"></textarea>
+    </div>
+  </div>
+
+  <!-- Q3: 明日からできる小さな一歩 -->
+  <div class="card">
+    <div class="step-label sl-gold">🌟 QUESTION 3</div>
+    <div class="card-title">明日からできる、小さな一歩は？</div>
+    <div class="card-hint">「大きく変えなきゃ」じゃなくていい。<br>明日の朝、たった一つだけ試せることを考えてみましょう。</div>
+
+    <div class="select-grid" id="q3-tags">
+      <button class="sel-btn" onclick="toggleBtn(this,'active-gold')">☀️ 5分早く起きる</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-gold')">📓 一行だけ日記を書く</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-gold')">🚶 通勤中に深呼吸する</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-gold')">📵 朝スマホを見ない</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-gold')">☕ 好きな飲み物でスタート</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-gold')">🧘 1分だけストレッチ</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-gold')">💌 今日の感謝を1つ思う</button>
+      <button class="sel-btn" onclick="toggleBtn(this,'active-gold')">🌿 その他（下に書く）</button>
+    </div>
+
+    <hr>
+
+    <div class="q-block">
+      <div class="q-label">
+        <span class="q-num gold">→</span>
+        <span>明日の朝、これだけはやってみる！</span>
+      </div>
+      <textarea rows="3" placeholder="例）明日は朝6時に起きて、コーヒーを飲みながら5分だけ自分のことを考える時間にする"></textarea>
+    </div>
+  </div>
+
+  <!-- まとめ：小さな一歩宣言 -->
+  <div class="step-action-card">
+    <div class="sa-title">📣 3日間のまとめ・宣言</div>
+    <div class="sa-hint">3日間、自分と向き合ってくれてありがとうございます🌿<br>最後に、これからの自分へひと言。どんな小さなことでも大丈夫です。</div>
+    <div class="q-block">
+      <div class="q-label">
+        <span class="q-num sky">✍️</span>
+        <span>未来の自分へ、メッセージを書こう</span>
+      </div>
+      <textarea rows="5" placeholder="例）ゆっくりでいい。毎朝少しだけ自分の時間をつくって、なりたい自分に近づいていこう。&#10;小さな一歩が、いつか大きな変化になることを信じて。"></textarea>
+    </div>
+  </div>
+
+  <!-- ブリッジ：朝習慣サービスへ -->
+  <div class="bridge-card">
+    <span class="bridge-icon">🌅</span>
+    <div class="bridge-title">この「小さな一歩」を、毎朝続けたい方へ</div>
+    <div class="bridge-body">
+      気づきがあっても、一人では続けるのが難しいと感じていませんか？<br>
+      Loves Life の<strong>朝習慣サービス</strong>では、<br>
+      毎朝の小さな習慣づくりをやさしくサポートします。<br><br>
+      「続けられる自分」に変わる最初の一歩を、一緒に🌿
+    </div>
+    <a href="#" class="bridge-cta">詳しくはLINEで → </a>
+  </div>
+
+  <!-- フッター -->
+  <div class="footer">
+    <div class="brand">🦥 Loves Life</div>
+    <div>3日間、ありがとうございました。<br>あなたのペースで、ゆっくり進もう。</div>
+  </div>
+
+</div>
+
+<script>
+  // 選択ボタンのトグル（同グループ内は複数選択OK）
+  function toggleBtn(btn, activeClass) {
+    const allClasses = ['active-sky','active-mint','active-gold'];
+    const isActive = allClasses.some(c => btn.classList.contains(c));
+    if (isActive) {
+      allClasses.forEach(c => btn.classList.remove(c));
+    } else {
+      btn.classList.add(activeClass);
+    }
+  }
+
+  // スクロール進捗バー
+  window.addEventListener('scroll', () => {
+    const el = document.documentElement;
+    const scrollTop = el.scrollTop || document.body.scrollTop;
+    const scrollHeight = el.scrollHeight - el.clientHeight;
+    const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    document.getElementById('progress').style.width = pct + '%';
+  });
+</script>
+</body>
+</html>
