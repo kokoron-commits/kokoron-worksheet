@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>「時間」と向き合うジャーナリング｜Loves Life</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Shippori+Mincho:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf6f0;
+    --blush: #f2ddd5;
+    --blush-dark: #d4847a;
+    --sage: #ccddd0;
+    --sage-dark: #6a9e80;
+    --lavender: #e0d8f0;
+    --lavender-dark: #8878b8;
+    --peach: #fde8d0;
+    --text: #3a3030;
+    --text-light: #8a7878;
+    --white: #fffef9;
+    --border: #e8ddd5;
+    --gold: #d4a060;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    padding: 24px 16px 80px;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(242,221,213,0.5) 0%, transparent 45%),
+      radial-gradient(circle at 85% 85%, rgba(204,221,208,0.4) 0%, transparent 45%);
+  }
+  .container { max-width: 640px; margin: 0 auto; }
+
+  /* ヘッダー */
+  .header {
+    text-align: center;
+    padding: 40px 20px 32px;
+    animation: fadeUp .7s ease both;
+  }
+  .header .icon { font-size: 40px; margin-bottom: 12px; display: block; }
+  .header h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 20px; font-weight: 600; line-height: 1.7;
+    color: var(--text); margin-bottom: 8px;
+  }
+  .header h1 span { color: var(--blush-dark); }
+  .header .sub { font-size: 12px; color: var(--text-light); line-height: 1.9; }
+  .divider { width: 40px; height: 2px; background: linear-gradient(90deg,var(--blush-dark),var(--sage-dark)); margin: 14px auto; border-radius: 2px; }
+
+  /* ステップバッジ */
+  .step-label {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    padding: 3px 12px; border-radius: 20px; margin-bottom: 12px;
+  }
+  .sl-blush { background: var(--blush); color: var(--blush-dark); }
+  .sl-sage  { background: var(--sage);  color: var(--sage-dark); }
+  .sl-lav   { background: var(--lavender); color: var(--lavender-dark); }
+  .sl-peach { background: var(--peach); color: var(--gold); }
+
+  /* カード */
+  .card {
+    background: var(--white); border-radius: 20px;
+    padding: 24px 24px; border: 1px solid var(--border);
+    margin-bottom: 20px;
+    animation: fadeUp .7s ease both;
+  }
+  .card:nth-child(1){animation-delay:.1s}
+  .card:nth-child(2){animation-delay:.15s}
+  .card:nth-child(3){animation-delay:.2s}
+  .card:nth-child(4){animation-delay:.25s}
+  .card:nth-child(5){animation-delay:.3s}
+  .card:nth-child(6){animation-delay:.35s}
+
+  .card-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 16px; font-weight: 600; margin-bottom: 6px; line-height: 1.5;
+  }
+  .card-hint { font-size: 12px; color: var(--text-light); margin-bottom: 16px; line-height: 1.8; }
+
+  /* 選択ボタン */
+  .select-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .sel-btn {
+    background: var(--cream); border: 1.5px solid var(--border);
+    border-radius: 30px; padding: 8px 14px;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 13px; color: var(--text-light);
+    cursor: pointer; transition: all .2s; user-select: none;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .sel-btn:hover { border-color: var(--blush-dark); color: var(--text); background: var(--blush); }
+  .sel-btn.active {
+    background: var(--blush); border-color: var(--blush-dark);
+    color: var(--blush-dark); font-weight: 700;
+    transform: scale(1.04);
+  }
+  .sel-btn.active-sage { background: var(--sage); border-color: var(--sage-dark); color: var(--sage-dark); font-weight: 700; transform: scale(1.04); }
+  .sel-btn.active-lav { background: var(--lavender); border-color: var(--lavender-dark); color: var(--lavender-dark); font-weight: 700; transform: scale(1.04); }
+
+  /* 3択ボタン（大きめ） */
+  .tri-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+  .tri-btn {
+    background: var(--cream); border: 1.5px solid var(--border);
+    border-radius: 14px; padding: 14px 8px; text-align: center;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 13px; color: var(--text-light); cursor: pointer;
+    transition: all .2s; user-select: none; line-height: 1.6;
+  }
+  .tri-btn .tri-icon { font-size: 22px; display: block; margin-bottom: 4px; }
+  .tri-btn:hover { border-color: var(--blush-dark); background: var(--blush); color: var(--text); }
+  .tri-btn.active { background: var(--blush); border-color: var(--blush-dark); color: var(--blush-dark); font-weight: 700; }
+  .tri-btn.active-sage { background: var(--sage); border-color: var(--sage-dark); color: var(--sage-dark); font-weight: 700; }
+  .tri-btn.active-lav { background: var(--lavender); border-color: var(--lavender-dark); color: var(--lavender-dark); font-weight: 700; }
+
+  /* テキストエリア */
+  .q-block { margin-bottom: 18px; }
+  .q-label {
+    font-size: 13px; font-weight: 700; color: var(--text);
+    margin-bottom: 8px; display: flex; align-items: flex-start; gap: 6px; line-height: 1.6;
+  }
+  .q-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; background: var(--blush);
+    color: var(--blush-dark); border-radius: 50%;
+    font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  }
+  .q-num.g { background: var(--sage); color: var(--sage-dark); }
+  .q-num.p { background: var(--lavender); color: var(--lavender-dark); }
+  textarea {
+    width: 100%; border: 1.5px solid var(--border); border-radius: 12px;
+    padding: 12px 14px; font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 14px; color: var(--text); background: var(--cream);
+    resize: none; transition: border-color .2s; line-height: 1.8;
+  }
+  textarea:focus { outline: none; border-color: var(--blush-dark); background: var(--white); }
+  textarea::placeholder { color: #c8b8b8; }
+
+  /* 仕切り */
+  hr { border: none; border-top: 1.5px dashed var(--border); margin: 18px 0; }
+
+  /* まとめカード */
+  .summary-card {
+    background: linear-gradient(135deg, var(--blush) 0%, var(--sage) 100%);
+    border-radius: 20px; padding: 24px; margin-bottom: 20px;
+    animation: fadeUp .7s ease .4s both;
+  }
+  .summary-card .summary-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 16px; font-weight: 600; margin-bottom: 6px; color: var(--text);
+  }
+  .summary-card .summary-hint { font-size: 12px; color: var(--text-light); margin-bottom: 14px; }
+  .summary-card textarea { background: rgba(255,255,255,.7); border-color: rgba(255,255,255,.8); }
+
+  /* フッター */
+  .footer { text-align: center; padding: 32px 0 0; font-size: 12px; color: var(--text-light); line-height: 2; }
+  .footer .brand { font-weight: 700; color: var(--text); font-size: 13px; margin-bottom: 4px; }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+
+  /* スクロール進捗 */
+  .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg,var(--blush-dark),var(--sage-dark)); width: 0%; transition: width .2s; z-index: 100; }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <div class="header">
+    <span class="icon">🕰️</span>
+    <h1>「<span>時間</span>」と向き合う<br>ジャーナリング</h1>
+    <div class="divider"></div>
+    <p class="sub">瞑想のあと、浮かんできた感覚をそのまま書いてみましょう🌿<br>正解はありません。思ったままで大丈夫です。</p>
+  </div>
+
+  <!-- STEP1: 今の気持ち -->
+  <div class="card">
+    <span class="step-label sl-blush">🌸 STEP 1</span>
+    <div class="card-title">今の気持ちは？</div>
+    <p class="card-hint">当てはまるものをタップしてください（複数OK）</p>
+    <div class="select-grid" id="feeling-grid">
+      <button class="sel-btn" onclick="toggle(this,'active')">😌 落ち着いている</button>
+      <button class="sel-btn" onclick="toggle(this,'active')">😊 穏やか</button>
+      <button class="sel-btn" onclick="toggle(this,'active')">💫 すっきりした</button>
+      <button class="sel-btn" onclick="toggle(this,'active')">🌀 ざわざわしている</button>
+      <button class="sel-btn" onclick="toggle(this,'active')">😤 焦っている</button>
+      <button class="sel-btn" onclick="toggle(this,'active')">😔 疲れている</button>
+      <button class="sel-btn" onclick="toggle(this,'active')">🤔 考えすぎ</button>
+      <button class="sel-btn" onclick="toggle(this,'active')">😶 ぼーっとしている</button>
+      <button class="sel-btn" onclick="toggle(this,'active')">🌱 なんとなく前向き</button>
+      <button class="sel-btn" onclick="toggle(this,'active')">🥺 不安がある</button>
+    </div>
+  </div>
+
+  <!-- STEP2: 意識の場所 -->
+  <div class="card">
+    <span class="step-label sl-sage">🌿 STEP 2</span>
+    <div class="card-title">今、意識はどこにありますか？</div>
+    <p class="card-hint">瞑想中、気づいたらどこにいましたか？</p>
+    <div class="tri-grid">
+      <button class="tri-btn" onclick="triSelect(this,'time-loc','active')">
+        <span class="tri-icon">⏮</span>過去の<br>出来事
+      </button>
+      <button class="tri-btn" onclick="triSelect(this,'time-loc','active-sage')">
+        <span class="tri-icon">✨</span>今この<br>瞬間
+      </button>
+      <button class="tri-btn" onclick="triSelect(this,'time-loc','active-lav')">
+        <span class="tri-icon">⏭</span>未来の<br>こと
+      </button>
+    </div>
+    <div class="q-block" style="margin-top:14px; margin-bottom:0;">
+      <div class="q-label"><span class="q-num">+</span>気づいたことを一言</div>
+      <textarea rows="2" placeholder="例）仕事のことをずっと考えていた…"></textarea>
+    </div>
+  </div>
+
+  <!-- STEP3: 時間の感覚 -->
+  <div class="card">
+    <span class="step-label sl-lav">💜 STEP 3</span>
+    <div class="card-title">時間の流れ、どう感じていますか？</div>
+    <p class="card-hint">最近の感覚に近いものを選んでください</p>
+    <div class="tri-grid">
+      <button class="tri-btn" onclick="triSelect(this,'time-feel','active')">
+        <span class="tri-icon">⚡</span>早く<br>過ぎていく
+      </button>
+      <button class="tri-btn" onclick="triSelect(this,'time-feel','active-sage')">
+        <span class="tri-icon">🌊</span>ゆっくり<br>流れている
+      </button>
+      <button class="tri-btn" onclick="triSelect(this,'time-feel','active-lav')">
+        <span class="tri-icon">↔️</span>どちらとも<br>いえない
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP4: 時間の使い方 -->
+  <div class="card">
+    <span class="step-label sl-peach">🍊 STEP 4</span>
+    <div class="card-title">「時間の使い方」を見つめてみる</div>
+    <p class="card-hint">思ったままに書いてみてください。1行でもOKです。</p>
+
+    <div class="q-block">
+      <div class="q-label"><span class="q-num">1</span>「時間がない」と感じるのは、どんな場面？</div>
+      <textarea rows="3" placeholder="例）仕事が終わらない夜。子どもの送迎が続くとき…"></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-label"><span class="q-num">2</span>「もっと時間が欲しい」のは、何のため？</div>
+      <textarea rows="3" placeholder="例）自分のためだけの時間。好きなことに集中したい…"></textarea>
+    </div>
+
+    <div class="q-block" style="margin-bottom:0;">
+      <div class="q-label"><span class="q-num">3</span>1日の中で、本当に大切にしたいことに<br>　時間を使えていますか？</div>
+      <div class="select-grid" style="margin-bottom:10px;">
+        <button class="sel-btn" onclick="singleSelect(this,'time-ok','active')">😊 使えている</button>
+        <button class="sel-btn" onclick="singleSelect(this,'time-ok','active')">🌀 少しだけ</button>
+        <button class="sel-btn" onclick="singleSelect(this,'time-ok','active')">😔 あまり使えていない</button>
+      </div>
+      <textarea rows="2" placeholder="気づいたことがあれば…"></textarea>
+    </div>
+  </div>
+
+  <!-- STEP5: 未来のビジョン -->
+  <div class="card">
+    <span class="step-label sl-sage">🌱 STEP 5</span>
+    <div class="card-title">もし「時間」から解放されたら…</div>
+    <p class="card-hint">漠然としたイメージでも大丈夫です🌿</p>
+
+    <div class="q-block">
+      <div class="q-label"><span class="q-num g">1</span>仕事・活動で、やりたいこと</div>
+      <textarea rows="2" placeholder="例）自分のペースで仕事したい。好きなことを発信したい…"></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-label"><span class="q-num g">2</span>プライベートで、大切にしたいこと</div>
+      <textarea rows="2" placeholder="例）家族とゆっくりすごす。自分だけの時間を持つ…"></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-label"><span class="q-num g">3</span>どんな人間関係を築きたい？</div>
+      <textarea rows="2" placeholder="例）気を使わずに話せる人と。お互いを応援できる関係…"></textarea>
+    </div>
+
+    <div class="q-block" style="margin-bottom:0;">
+      <div class="q-label"><span class="q-num g">4</span>どんな自分でありたい？</div>
+      <textarea rows="2" placeholder="例）自分のペースを大切にできる人。笑顔でいられる人…"></textarea>
+    </div>
+  </div>
+
+  <!-- まとめ -->
+  <div class="summary-card">
+    <div class="summary-title">🕊️ 今日の気づきをひとことで</div>
+    <p class="summary-hint">書いてみて、浮かんだ一言を残しておきましょう</p>
+    <textarea rows="3" placeholder="例）「忙しい」の裏に、もっと自分を大切にしたいという気持ちがあった…"></textarea>
+  </div>
+
+  <!-- フッター -->
+  <div class="footer">
+    <div class="brand">🦥 Loves Life｜モカ＆こころん♪</div>
+    心を整える伴奏者<br>
+    <span style="font-size:11px;">書いた内容はこのページにのみ保存されます（外部送信なし）</span>
+  </div>
+
+</div>
+
+<script>
+  // 複数選択
+  function toggle(btn, cls) {
+    btn.classList.toggle(cls);
+  }
+
+  // グループ内1択
+  function triSelect(btn, group, cls) {
+    const allBtns = document.querySelectorAll(`[onclick*="'${group}'"]`);
+    allBtns.forEach(b => b.className = 'tri-btn');
+    btn.classList.add(cls);
+  }
+
+  function singleSelect(btn, group, cls) {
+    const allBtns = document.querySelectorAll(`[onclick*="'${group}'"]`);
+    allBtns.forEach(b => b.className = 'sel-btn');
+    btn.classList.add(cls);
+  }
+
+  // スクロール進捗バー
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrollTop = doc.scrollTop || document.body.scrollTop;
+    const scrollHeight = doc.scrollHeight - doc.clientHeight;
+    const progress = (scrollTop / scrollHeight) * 100;
+    document.getElementById('progress').style.width = progress + '%';
+  });
+</script>
+</body>
+</html>
