@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>今日のジャーナリングテーマ｜自由を言語化する</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Shippori+Mincho:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lav:       #ede8f7;
+    --lav-mid:   #d4caf0;
+    --lav-dark:  #7b68c4;
+    --lav-deep:  #5a4aa0;
+    --gold:      #e8c84a;
+    --sage:      #7aaa70;
+    --cream:     #faf8f4;
+    --text:      #3a2e4a;
+    --text-light:#8878a8;
+    --white:     #ffffff;
+    --border:    #ddd4f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    background: var(--lav);
+    color: var(--text);
+    padding: 28px 16px 80px;
+    background-image:
+      radial-gradient(circle at 10% 5%,  rgba(212,202,240,.5) 0%, transparent 40%),
+      radial-gradient(circle at 90% 90%, rgba(180,220,180,.3) 0%, transparent 40%);
+    min-height: 100vh;
+  }
+  .container { max-width: 600px; margin: 0 auto; }
+
+  /* 進捗バー */
+  .progress-bar {
+    position: fixed; top: 0; left: 0; height: 4px;
+    background: linear-gradient(90deg, var(--lav-dark), var(--gold));
+    width: 0%; transition: width .2s; z-index: 100;
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* ✦ 装飾スパークル */
+  .sparks {
+    position: absolute; pointer-events: none;
+    font-size: 14px; color: var(--gold); opacity: .7;
+  }
+
+  /* ヘッダーカード */
+  .header-card {
+    background: var(--white);
+    border-radius: 28px;
+    padding: 32px 24px 24px;
+    text-align: center;
+    box-shadow: 0 4px 24px rgba(123,104,196,.12);
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp .7s ease both;
+  }
+  .header-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, rgba(237,232,247,.6) 0%, rgba(255,255,255,0) 60%);
+    border-radius: 28px;
+  }
+
+  /* 装飾スパークル（ヘッダー内） */
+  .spark { position: absolute; font-size: 16px; color: var(--gold); opacity: .6; }
+  .sp1 { top: 16px; left: 20px; }
+  .sp2 { top: 12px; right: 24px; font-size: 12px; color: var(--lav-dark); }
+  .sp3 { bottom: 20px; left: 16px; font-size: 11px; color: var(--sage); }
+  .sp4 { bottom: 16px; right: 20px; font-size: 14px; }
+  .sp5 { top: 50%; left: 12px; font-size: 10px; color: var(--lav-dark); opacity: .5; }
+  .sp6 { top: 40%; right: 14px; font-size: 10px; color: var(--sage); opacity: .5; }
+
+  /* タイトルラベル */
+  .theme-label {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 700; color: var(--text-light);
+    letter-spacing: .1em; margin-bottom: 16px;
+  }
+
+  /* 丸数字 */
+  .num-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--lav-mid);
+    color: var(--lav-deep);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 22px; font-weight: 600;
+    margin: 0 auto 14px;
+  }
+
+  /* 葉っぱ装飾 */
+  .leaf-row {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-bottom: 14px; color: var(--sage); font-size: 14px;
+  }
+
+  .header-card h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 26px; font-weight: 600; line-height: 1.5;
+    color: var(--text); margin-bottom: 8px;
+  }
+  .header-card h1 span { color: var(--lav-deep); }
+
+  .header-sub {
+    font-size: 12px; color: var(--text-light); line-height: 2;
+    margin-bottom: 20px;
+  }
+
+  /* こころんイラスト */
+  .kokoron-img {
+    width: 170px; height: 170px; object-fit: contain;
+    mix-blend-mode: multiply;
+    margin: 0 auto 4px; display: block;
+  }
+
+  /* 問いカード */
+  .q-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 22px 22px 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 16px rgba(123,104,196,.09);
+    border: 1.5px solid var(--border);
+    animation: fadeUp .7s ease both;
+    position: relative;
+  }
+  .q-card:nth-child(1){ animation-delay:.1s }
+  .q-card:nth-child(2){ animation-delay:.18s }
+  .q-card:nth-child(3){ animation-delay:.26s }
+
+  /* 問い番号 */
+  .q-num-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 10px;
+  }
+  .q-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--lav-mid); color: var(--lav-deep);
+    font-size: 13px; font-weight: 700; flex-shrink: 0;
+  }
+  .q-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 15px; font-weight: 600; line-height: 1.6; color: var(--text);
+  }
+  .q-sub {
+    font-size: 12px; color: var(--text-light);
+    line-height: 1.9; margin-bottom: 12px; padding-left: 38px;
+  }
+
+  /* テキストエリア */
+  textarea {
+    width: 100%; border: 1.5px solid var(--border); border-radius: 14px;
+    padding: 12px 14px;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 14px; color: var(--text);
+    background: var(--lav); resize: none;
+    transition: border-color .2s, background .2s; line-height: 1.9;
+  }
+  textarea:focus {
+    outline: none; border-color: var(--lav-dark);
+    background: var(--white);
+  }
+  textarea::placeholder { color: #b8aed0; }
+
+  /* まとめカード */
+  .wrap-card {
+    background: linear-gradient(135deg, var(--lav-mid) 0%, rgba(122,170,112,.25) 100%);
+    border-radius: 20px; padding: 24px 22px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 16px rgba(123,104,196,.1);
+    animation: fadeUp .7s ease .38s both;
+  }
+  .wrap-card .wc-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 15px; font-weight: 600;
+    color: var(--text); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .wrap-card .wc-hint { font-size: 12px; color: var(--text-light); margin-bottom: 12px; line-height: 1.9; }
+  .wrap-card textarea { background: rgba(255,255,255,.65); border-color: rgba(255,255,255,.9); }
+  .wrap-card textarea:focus { background: rgba(255,255,255,.9); }
+
+  /* フッターメッセージ */
+  .footer-msg {
+    text-align: center;
+    background: var(--white);
+    border-radius: 20px;
+    padding: 20px 22px;
+    border: 1.5px solid var(--border);
+    margin-bottom: 20px;
+    animation: fadeUp .7s ease .46s both;
+  }
+  .footer-msg .fm-text {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 15px; font-weight: 600; color: var(--lav-deep);
+    line-height: 1.8;
+  }
+  .footer-msg .fm-sub { font-size: 12px; color: var(--text-light); margin-top: 6px; line-height: 1.9; }
+
+  /* ブランドフッター */
+  .footer {
+    text-align: center;
+    font-size: 12px; color: var(--text-light); line-height: 2;
+    padding-top: 12px;
+  }
+  .footer .brand { font-weight: 700; color: var(--text); font-size: 13px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<div class="container">
+
+  <!-- ヘッダーカード -->
+  <div class="header-card">
+    <span class="spark sp1">✦</span>
+    <span class="spark sp2">✧</span>
+    <span class="spark sp3">✦</span>
+    <span class="spark sp4">✦</span>
+    <span class="spark sp5">✧</span>
+    <span class="spark sp6">✦</span>
+
+    <div class="theme-label">今日のジャーナリングテーマ 🕯️</div>
+
+    <div class="num-badge">3</div>
+
+    <div class="leaf-row">🌿 ✦ 🌿</div>
+
+    <h1>「<span>自由</span>」を<br>言語化する</h1>
+    <p class="header-sub">
+      ノートでも、スマホのメモでも。<br>
+      まず３行から書いてみてください🗒️
+    </p>
+
+    <!-- こころんイラスト -->
+    <img class="kokoron-img" src="images/kokoron_writing.png" alt="こころん">
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-card">
+    <div class="q-num-row">
+      <span class="q-num">①</span>
+      <div class="q-title">私にとって「自由」ってなんだろう？</div>
+    </div>
+    <p class="q-sub">逆に、自由じゃないのってどんな状態？</p>
+    <textarea rows="4" placeholder="例）自分でやることを選べること。誰かの期待に応えるためじゃなく、自分の気持ちで動けること…"></textarea>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card">
+    <div class="q-num-row">
+      <span class="q-num">②</span>
+      <div class="q-title">今、自由にできていることはなんだろう？</div>
+    </div>
+    <p class="q-sub">自由にできていないことがあるとしたら、それは何？<br>評価しなくていい。ただ書くだけでOK🌿</p>
+    <textarea rows="4" placeholder="例）朝の時間は自分のペースで動けている。でも仕事の時間は誰かのスケジュールに合わせることが多い…"></textarea>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card">
+    <div class="q-num-row">
+      <span class="q-num">③</span>
+      <div class="q-title">すべてのリミットを外して、<br>自由に選べるとしたら？</div>
+    </div>
+    <p class="q-sub">何をしている？　どこにいる？　誰といる？</p>
+    <textarea rows="5" placeholder="例）海の近くで、好きな音楽をかけながら、毎朝ゆっくり読書している。そばには気の合う友達がいて…"></textarea>
+  </div>
+
+  <!-- まとめ -->
+  <div class="wrap-card">
+    <div class="wc-title">✍️ 今日の気づきをひと言で</div>
+    <p class="wc-hint">３つの問いを書き終えたら、最後に「今日気づいたこと」を一文だけ書いてみましょう。</p>
+    <textarea rows="3" placeholder="例）自由って、遠いものじゃなくて、今日の選択の積み重ねなのかもしれない。"></textarea>
+  </div>
+
+  <!-- フッターメッセージ -->
+  <div class="footer-msg">
+    <div class="fm-text">
+      自由は、グラデーションです。<br>
+      100か０かじゃない。<br>
+      今この瞬間の「自由」を、ありのままに✨
+    </div>
+    <p class="fm-sub">毎晩22時｜ovice 3階 夜のジャーナリングの会🧘‍♀️</p>
+  </div>
+
+  <!-- ブランド -->
+  <div class="footer">
+    <div class="brand">🦥 Loves Life｜モカ&こころん</div>
+    <div>心のリズムを整える伴奏者</div>
+  </div>
+
+</div>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const el = document.documentElement;
+    const top = el.scrollTop || document.body.scrollTop;
+    const h = el.scrollHeight - el.clientHeight;
+    document.getElementById('progress').style.width = (h > 0 ? top / h * 100 : 0) + '%';
+  });
+</script>
+</body>
+</html>
