@@ -7,579 +7,580 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Shippori+Mincho:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #faf6f0;
-    --blush: #f2ddd5;
-    --blush-dark: #e8c8bc;
-    --sage: #ccddd0;
-    --sage-dark: #a8c4b0;
-    --peach: #f0c9b0;
-    --lavender: #ddd5ee;
-    --text: #4a4040;
-    --text-light: #8a7878;
-    --white: #fffef9;
-    --border: #e8ddd5;
-    --pink-accent: #d4847a;
-    --green-accent: #6a9e80;
+    --cream:   #faf6f0;
+    --blush:   #f2ddd5;
+    --blush-d: #d4847a;
+    --sage:    #cdddd0;
+    --sage-d:  #6a9e80;
+    --peach:   #fde8d0;
+    --peach-d: #c47030;
+    --lav:     #e0d8f0;
+    --lav-d:   #7868b8;
+    --sky:     #d8eef8;
+    --sky-d:   #4888b4;
+    --text:    #3a3030;
+    --text-lt: #8a7878;
+    --white:   #fffef9;
+    --border:  #e8ddd5;
+    --gold:    #d4a060;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background-color: var(--cream);
-    color: var(--text);
     font-family: 'Zen Maru Gothic', sans-serif;
-    min-height: 100vh;
-    padding: 40px 20px 80px;
+    background: var(--cream);
+    color: var(--text);
+    padding: 28px 16px 80px;
     background-image:
-      radial-gradient(circle at 10% 20%, rgba(242,221,213,0.5) 0%, transparent 50%),
-      radial-gradient(circle at 90% 80%, rgba(204,221,208,0.4) 0%, transparent 50%),
-      radial-gradient(circle at 50% 50%, rgba(240,201,176,0.2) 0%, transparent 70%);
+      radial-gradient(circle at 10% 10%, rgba(242,221,213,.5) 0%, transparent 45%),
+      radial-gradient(circle at 90% 85%, rgba(204,221,208,.4) 0%, transparent 45%);
   }
+  .container { max-width: 680px; margin: 0 auto; }
 
-  .container { max-width: 700px; margin: 0 auto; }
+  /* 進捗バー */
+  .progress-bar {
+    position: fixed; top: 0; left: 0; height: 4px;
+    background: linear-gradient(90deg, var(--blush-d), var(--sage-d), var(--lav-d));
+    width: 0%; transition: width .2s; z-index: 100;
+  }
 
   /* ヘッダー */
   .header {
-    text-align: center;
-    padding: 48px 0 36px;
-    animation: fadeUp 0.8s ease both;
+    text-align: center; padding: 40px 0 28px;
+    animation: fadeUp .8s ease both;
   }
-
   .header .tag {
     display: inline-block;
-    background: var(--blush);
-    color: var(--pink-accent);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    padding: 5px 16px;
-    border-radius: 20px;
-    margin-bottom: 16px;
+    background: var(--blush); color: var(--blush-d);
+    font-size: 11px; font-weight: 700; letter-spacing: .1em;
+    padding: 4px 16px; border-radius: 20px; margin-bottom: 14px;
   }
-
   .header h1 {
     font-family: 'Shippori Mincho', serif;
-    font-size: 26px;
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1.6;
+    font-size: 22px; font-weight: 600; line-height: 1.7;
     margin-bottom: 8px;
   }
-
-  .header h1 span {
-    color: var(--pink-accent);
-  }
-
-  .header .sub {
-    font-size: 13px;
-    color: var(--text-light);
-    line-height: 1.8;
-    margin-top: 8px;
-  }
-
-  .divider {
-    width: 48px;
-    height: 2px;
-    background: linear-gradient(90deg, var(--blush-dark), var(--sage-dark));
-    margin: 20px auto;
-    border-radius: 2px;
-  }
+  .header h1 span { color: var(--blush-d); }
+  .divider { width: 40px; height: 2px; background: linear-gradient(90deg, var(--blush-d), var(--sage-d)); margin: 12px auto; border-radius: 2px; }
+  .header .sub { font-size: 12px; color: var(--text-lt); line-height: 2; }
 
   /* イントロ */
   .intro {
-    background: var(--white);
-    border-radius: 20px;
-    padding: 24px 28px;
-    margin-bottom: 32px;
+    background: var(--white); border-radius: 16px;
+    padding: 18px 20px; margin-bottom: 20px;
     border: 1px solid var(--border);
-    font-size: 13.5px;
-    line-height: 2;
-    color: var(--text-light);
-    animation: fadeUp 0.8s ease 0.1s both;
+    font-size: 13px; line-height: 2; color: var(--text-lt);
+    animation: fadeUp .7s ease .1s both;
   }
-
   .intro strong { color: var(--text); }
 
-  /* フロー図 */
+  /* フロー */
   .flow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin: 24px 0 32px;
-    animation: fadeUp 0.8s ease 0.15s both;
+    display: flex; align-items: center; justify-content: center;
+    gap: 4px; margin-bottom: 24px; flex-wrap: wrap;
+    animation: fadeUp .7s ease .15s both;
   }
-
   .flow-item {
-    background: var(--white);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 10px 18px;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-    text-align: center;
+    background: var(--white); border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 8px 12px; text-align: center;
+    font-size: 11px; font-weight: 700; color: var(--text-lt); line-height: 1.4;
   }
-
-  .flow-item.active {
-    background: var(--blush);
-    border-color: var(--blush-dark);
-    color: var(--pink-accent);
-  }
-
-  .flow-arrow {
-    font-size: 14px;
-    color: var(--text-light);
-  }
+  .flow-item small { display: block; font-weight: 400; }
+  .flow-item.s1 { border-color: var(--blush-d); color: var(--blush-d); background: var(--blush); }
+  .flow-item.s2 { border-color: var(--peach-d); color: var(--peach-d); background: var(--peach); }
+  .flow-item.s3 { border-color: var(--sage-d);  color: var(--sage-d);  background: var(--sage); }
+  .flow-item.s4 { border-color: var(--lav-d);   color: var(--lav-d);   background: var(--lav); }
+  .flow-arrow { color: var(--text-lt); font-size: 14px; }
 
   /* ワークカード */
   .work-card {
-    background: var(--white);
-    border-radius: 24px;
-    padding: 30px 32px;
-    margin-bottom: 24px;
-    border: 1px solid var(--border);
-    animation: fadeUp 0.8s ease both;
+    background: var(--white); border-radius: 20px;
+    padding: 24px 22px; border: 1px solid var(--border);
+    margin-bottom: 18px;
+    animation: fadeUp .7s ease both;
   }
-
-  .work-card:nth-child(1) { animation-delay: 0.2s; }
-  .work-card:nth-child(2) { animation-delay: 0.3s; }
-  .work-card:nth-child(3) { animation-delay: 0.4s; }
-  .work-card:nth-child(4) { animation-delay: 0.5s; }
-  .work-card:nth-child(5) { animation-delay: 0.6s; }
+  .work-card:nth-child(1){animation-delay:.2s}
+  .work-card:nth-child(2){animation-delay:.25s}
+  .work-card:nth-child(3){animation-delay:.3s}
+  .work-card:nth-child(4){animation-delay:.35s}
+  .work-card:nth-child(5){animation-delay:.4s}
 
   .work-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
   }
-
   .step-badge {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    padding: 4px 12px;
-    border-radius: 20px;
-    white-space: nowrap;
+    font-size: 10px; font-weight: 700; letter-spacing: .08em;
+    padding: 3px 10px; border-radius: 20px; white-space: nowrap;
   }
-
-  .badge-blush   { background: var(--blush);    color: #a06060; }
-  .badge-sage    { background: var(--sage);     color: #406050; }
-  .badge-peach   { background: var(--peach);    color: #a06030; }
-  .badge-lavender{ background: var(--lavender); color: #7060a0; }
-  .badge-green   { background: #d4edd8;         color: #3a7050; }
+  .sb1 { background: var(--blush); color: var(--blush-d); }
+  .sb2 { background: var(--peach); color: var(--peach-d); }
+  .sb3 { background: var(--sage);  color: var(--sage-d); }
+  .sb4 { background: var(--lav);   color: var(--lav-d); }
+  .sb5 { background: var(--sky);   color: var(--sky-d); }
 
   .work-title {
     font-family: 'Shippori Mincho', serif;
-    font-size: 17px;
-    font-weight: 600;
+    font-size: 16px; font-weight: 600;
   }
-
   .work-desc {
-    font-size: 13px;
-    color: var(--text-light);
-    line-height: 1.9;
-    margin: 10px 0 20px;
+    font-size: 12px; color: var(--text-lt);
+    line-height: 1.9; margin: 8px 0 18px;
   }
 
   /* 質問ブロック */
-  .question-block { margin-bottom: 20px; }
-
-  .question-label {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
+  .q-block { margin-bottom: 20px; }
+  .q-label {
+    font-size: 13px; font-weight: 700; color: var(--text);
     margin-bottom: 8px;
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-    line-height: 1.6;
+    display: flex; align-items: flex-start; gap: 8px; line-height: 1.6;
+  }
+  .q-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  }
+  .qn1 { background: var(--blush); color: var(--blush-d); }
+  .qn2 { background: var(--peach); color: var(--peach-d); }
+  .qn3 { background: var(--sage);  color: var(--sage-d); }
+  .qn4 { background: var(--lav);   color: var(--lav-d); }
+
+  /* ヒントラベル */
+  .hint-label {
+    font-size: 11px; color: var(--text-lt);
+    margin-bottom: 6px; display: flex; align-items: center; gap: 4px;
   }
 
-  .q-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    background: var(--blush);
-    color: var(--pink-accent);
-    border-radius: 50%;
-    font-size: 11px;
-    font-weight: 700;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .q-icon.green { background: var(--sage); color: var(--green-accent); }
-  .q-icon.peach { background: var(--peach); color: #a06030; }
-  .q-icon.purple { background: var(--lavender); color: #7060a0; }
-
-  textarea {
-    width: 100%;
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 14px;
+  /* タップ選択チップ */
+  .chip-grid { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 10px; }
+  .chip {
+    background: var(--cream); border: 1.5px solid var(--border);
+    border-radius: 30px; padding: 7px 13px;
     font-family: 'Zen Maru Gothic', sans-serif;
-    font-size: 14px;
-    color: var(--text);
+    font-size: 12px; color: var(--text-lt);
+    cursor: pointer; transition: all .2s; user-select: none;
+  }
+  .chip:hover { border-color: var(--blush-d); background: var(--blush); color: var(--text); }
+  .chip.on-blush { background: var(--blush); border-color: var(--blush-d); color: var(--blush-d); font-weight: 700; transform: scale(1.04); }
+  .chip.on-peach { background: var(--peach); border-color: var(--peach-d); color: var(--peach-d); font-weight: 700; transform: scale(1.04); }
+  .chip.on-sage  { background: var(--sage);  border-color: var(--sage-d);  color: var(--sage-d);  font-weight: 700; transform: scale(1.04); }
+  .chip.on-lav   { background: var(--lav);   border-color: var(--lav-d);   color: var(--lav-d);   font-weight: 700; transform: scale(1.04); }
+
+  /* テキストエリア */
+  .q-sub { font-size: 12px; color: var(--text-lt); margin-bottom: 6px; }
+  textarea {
+    width: 100%; border: 1.5px solid var(--border); border-radius: 12px;
+    padding: 11px 13px; font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 13px; color: var(--text); background: var(--cream);
+    resize: none; transition: border-color .2s; line-height: 1.8;
+  }
+  textarea:focus { outline: none; border-color: var(--blush-d); background: var(--white); }
+  textarea::placeholder { color: #c8b8b0; }
+
+  /* ヒントボックス */
+  .hint-box {
+    font-size: 12px; color: var(--text-lt);
     background: var(--cream);
-    resize: vertical;
-    transition: border-color 0.2s;
-    line-height: 1.8;
+    border-left: 3px solid var(--blush-d);
+    padding: 8px 12px; border-radius: 0 8px 8px 0;
+    margin-bottom: 14px; line-height: 1.7;
   }
 
-  textarea:focus {
-    outline: none;
-    border-color: var(--blush-dark);
-    background: var(--white);
+  hr { border: none; border-top: 1.5px dashed var(--border); margin: 18px 0; }
+
+  /* STEP3 変換カード */
+  .convert-wrap {
+    display: flex; flex-direction: column; gap: 0; margin-bottom: 16px;
   }
-
-  textarea::placeholder { color: #c8b8b8; }
-
-  /* 変換フロー（STEP3用） */
-  .convert-flow {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
   .convert-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
+    display: flex; align-items: stretch; gap: 12px;
   }
-
-  .convert-label {
-    flex-shrink: 0;
-    width: 90px;
-    background: var(--peach);
-    color: #a06030;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 8px 10px;
-    border-radius: 10px;
-    text-align: center;
-    line-height: 1.4;
-    margin-top: 2px;
+  .c-label {
+    flex-shrink: 0; width: 80px; border-radius: 12px;
+    font-size: 11px; font-weight: 700; text-align: center;
+    display: flex; align-items: center; justify-content: center;
+    padding: 8px 4px; line-height: 1.4;
   }
+  .cl1 { background: var(--blush); color: var(--blush-d); }
+  .cl2 { background: var(--sage);  color: var(--sage-d); }
+  .cl3 { background: var(--peach); color: var(--peach-d); }
+  .c-input { flex: 1; }
+  .c-arrow { text-align: center; color: var(--text-lt); font-size: 18px; padding: 4px 0; padding-left: 46px; }
 
-  .convert-label.v2 { background: var(--sage); color: #406050; }
-  .convert-label.v3 { background: var(--blush); color: #a06060; }
+  /* 2カラムグリッド */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .two-col label { font-size: 12px; color: var(--text-lt); display: block; margin-bottom: 4px; }
 
-  .convert-input {
-    flex: 1;
-  }
-
-  .convert-arrow {
-    text-align: center;
-    color: var(--text-light);
-    font-size: 18px;
-    padding: 4px 0;
-    margin-left: 45px;
-  }
-
-  /* アイデアグリッド */
-  .idea-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-
-  .idea-item label {
-    font-size: 12px;
-    color: var(--text-light);
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  /* 次の一歩 */
-  .action-box {
+  /* 宣言ボックス */
+  .declare-box {
     background: linear-gradient(135deg, var(--blush) 0%, var(--sage) 100%);
-    border-radius: 16px;
-    padding: 20px 24px;
-    margin-top: 10px;
+    border-radius: 16px; padding: 20px; margin-top: 12px;
   }
+  .declare-title {
+    font-size: 13px; font-weight: 700; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  /* 穴埋め */
+  .madlib {
+    font-size: 14px; line-height: 2.6; color: var(--text);
+  }
+  .madlib input[type="text"] {
+    border: none; border-bottom: 2px solid var(--blush-d);
+    background: transparent; outline: none;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 14px; color: var(--text);
+    padding: 0 4px; min-width: 120px;
+    transition: border-color .2s;
+  }
+  .madlib input[type="text"]:focus { border-color: var(--sage-d); }
+  .madlib input[type="text"]::placeholder { color: #c8b8b0; font-size: 12px; }
 
-  .action-box .action-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+  /* シェアカード */
+  .share-card {
+    background: var(--white); border-radius: 20px;
+    padding: 22px; border: 2px solid var(--blush-d);
+    margin-bottom: 18px;
+    animation: fadeUp .7s ease .45s both;
   }
-
-  .action-box textarea {
-    background: rgba(255,255,255,0.7);
-    border-color: rgba(255,255,255,0.8);
+  .share-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 15px; font-weight: 600;
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 6px;
   }
+  .share-desc { font-size: 12px; color: var(--text-lt); margin-bottom: 14px; line-height: 1.9; }
 
   /* フッター */
   .footer {
-    text-align: center;
-    padding: 40px 0 20px;
-    font-size: 12px;
-    color: var(--text-light);
-    line-height: 2;
-    animation: fadeUp 0.8s ease 0.7s both;
+    text-align: center; padding: 32px 0 0;
+    font-size: 12px; color: var(--text-lt); line-height: 2;
   }
+  .footer .brand { font-weight: 700; color: var(--text); font-size: 13px; margin-bottom: 4px; }
 
-  .footer .brand {
-    font-weight: 700;
-    color: var(--text);
-    font-size: 14px;
-    margin-bottom: 4px;
-  }
-
-  /* 区切り線 */
-  .section-divider {
-    border: none;
-    border-top: 1.5px dashed var(--border);
-    margin: 20px 0;
-  }
-
-  /* hint */
-  .hint {
-    font-size: 12px;
-    color: var(--text-light);
-    background: var(--cream);
-    border-left: 3px solid var(--blush-dark);
-    padding: 8px 12px;
-    border-radius: 0 8px 8px 0;
-    margin-bottom: 14px;
-    line-height: 1.7;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @media print {
-    body { padding: 0; background: white; }
-    .work-card { break-inside: avoid; }
-  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
 </style>
 </head>
 <body>
+<div class="progress-bar" id="progress"></div>
 <div class="container">
 
-  <!-- ヘッダー -->
-  <div class="header">
-    <span class="tag">🌱 AIシフト時代のワークシート</span>
-    <h1>AIシフト時代に<br><span>「自分の軸」</span>を見つける<br>整理ワークシート</h1>
-    <div class="divider"></div>
-    <p class="sub">〜やりたいことを形にする設計ワーク〜<br>
-    モカ＆こころん♪ 心を整える伴奏者</p>
-  </div>
-
-  <!-- イントロ -->
-  <div class="intro">
-    🦥 <strong>このワークシートの使い方</strong><br>
-    今日は「考える」より「書く」ことを大切にしてください。<br>
-    正解はありません。頭の中にあるものをそのまま出すことが、整理への第一歩です。<br><br>
-    書きながら気づいたこと、シェアしながら見えてきたことを大切にしましょう🌿
-  </div>
-
-  <!-- フロー -->
-  <div class="flow">
-    <div class="flow-item active">STEP 1<br><small>自分を知る</small></div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-item">STEP 2<br><small>価値に変換</small></div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-item">STEP 3<br><small>形にする</small></div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-item">STEP 4<br><small>次の一歩</small></div>
-  </div>
-
-  <!-- STEP 1 -->
-  <div class="work-card">
-    <div class="work-header">
-      <span class="step-badge badge-blush">STEP 1</span>
-      <span class="work-title">自分を知る｜今の状態を整理する</span>
-    </div>
-    <p class="work-desc">まず「今の自分」をそのまま書き出してみましょう。評価や判断はしなくてOKです。</p>
-
-    <div class="question-block">
-      <div class="question-label">
-        <span class="q-icon">1</span>
-        今やっていること（副業・仕事・活動など）を書いてください
-      </div>
-      <textarea rows="3" placeholder="例）ハンドメイド販売・SNS発信・ライティング副業…"></textarea>
-    </div>
-
-    <div class="question-block">
-      <div class="question-label">
-        <span class="q-icon">2</span>
-        得意なこと・人からよく頼まれることは？
-      </div>
-      <textarea rows="3" placeholder="例）話を聞くのが得意・文章をまとめるのが早い・教えるのが好き…"></textarea>
-    </div>
-
-    <div class="question-block">
-      <div class="question-label">
-        <span class="q-icon">3</span>
-        好きなこと・時間を忘れてやっていること
-      </div>
-      <textarea rows="3" placeholder="例）デザイン・料理・子育て・学ぶこと・話すこと…"></textarea>
-    </div>
-
-    <div class="question-block">
-      <div class="question-label">
-        <span class="q-icon">4</span>
-        これまで人に「ありがとう」と言われた経験
-      </div>
-      <textarea rows="3" placeholder="例）悩みを聞いて整理してあげた・資料をわかりやすくまとめた…"></textarea>
-    </div>
-  </div>
-
-  <!-- STEP 2 -->
-  <div class="work-card">
-    <div class="work-header">
-      <span class="step-badge badge-peach">STEP 2</span>
-      <span class="work-title">価値に変換｜「誰の何に役立つか」を見つける</span>
-    </div>
-    <p class="work-desc">STEP1で出てきたものを「誰かの役に立つ視点」で見直してみましょう。</p>
-
-    <div class="hint">
-      💡 ヒント：あなたが「当たり前」と思っていることが、誰かにとっての「すごい価値」かもしれません
-    </div>
-
-    <div class="question-block">
-      <div class="question-label">
-        <span class="q-icon green">5</span>
-        あなたの得意・好きなことで、困っている人はどんな人？
-      </div>
-      <textarea rows="3" placeholder="例）仕事と家事で忙しくて自分の時間がない30代女性…"></textarea>
-    </div>
-
-    <div class="question-block">
-      <div class="question-label">
-        <span class="q-icon green">6</span>
-        その人が「本当に解決したい悩み」は何だと思う？
-      </div>
-      <textarea rows="3" placeholder="例）自分が何をやりたいかわからなくなってきた・疲れているのに休めない…"></textarea>
-    </div>
-
-    <div class="question-block">
-      <div class="question-label">
-        <span class="q-icon green">7</span>
-        あなたならその悩みにどんなサポートができそう？
-      </div>
-      <textarea rows="3" placeholder="例）気持ちを整理する時間をつくれる・一緒に考えながら言語化できる…"></textarea>
-    </div>
-  </div>
-
-  <!-- STEP 3 -->
-  <div class="work-card">
-    <div class="work-header">
-      <span class="step-badge badge-sage">STEP 3</span>
-      <span class="work-title">形にする｜やりたいこと → 価値 → カタチへ</span>
-    </div>
-    <p class="work-desc">STEP1・2で出てきたものをつなげて「自分らしい商品・発信の形」を考えてみましょう。</p>
-
-    <div class="convert-flow">
-      <div class="convert-row">
-        <div class="convert-label">やりたいこと</div>
-        <div class="convert-input">
-          <textarea rows="2" placeholder="例）感情を整えることに関わりたい・人の話を聞きたい…"></textarea>
-        </div>
-      </div>
-      <div class="convert-arrow">↓</div>
-      <div class="convert-row">
-        <div class="convert-label v2">届ける価値</div>
-        <div class="convert-input">
-          <textarea rows="2" placeholder="例）自分の気持ちを整理できる・次の一歩が見えてくる…"></textarea>
-        </div>
-      </div>
-      <div class="convert-arrow">↓</div>
-      <div class="convert-row">
-        <div class="convert-label v3">カタチ（案）</div>
-        <div class="convert-input">
-          <textarea rows="2" placeholder="例）オンライン個別セッション・ワークショップ・SNS発信・note有料記事…"></textarea>
-        </div>
-      </div>
-    </div>
-
-    <hr class="section-divider">
-
-    <p class="question-label" style="margin-bottom: 12px;">
-      <span class="q-icon peach">✦</span>
-      小さく始めるとしたら？（アイデア出し）
-    </p>
-    <div class="idea-grid">
-      <div class="idea-item">
-        <label>無料でできることから</label>
-        <textarea rows="3" placeholder="例）SNSで発信・知人に話す…"></textarea>
-      </div>
-      <div class="idea-item">
-        <label>モニターでやってみるなら</label>
-        <textarea rows="3" placeholder="例）無料体験セッション・少人数ワーク…"></textarea>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 4 -->
-  <div class="work-card">
-    <div class="work-header">
-      <span class="step-badge badge-lavender">STEP 4</span>
-      <span class="work-title">次の一歩を決める</span>
-    </div>
-    <p class="work-desc">「考える」から「動く」へ。今日この場で決める小さな一歩を書いておきましょう。</p>
-
-    <div class="question-block">
-      <div class="question-label">
-        <span class="q-icon purple">8</span>
-        今日の気づき・新しく見えてきたこと
-      </div>
-      <textarea rows="3" placeholder="シェアタイムの前に、まず自分の言葉でメモしておきましょう…"></textarea>
-    </div>
-
-    <div class="question-block">
-      <div class="question-label">
-        <span class="q-icon purple">9</span>
-        今日から1週間でやってみること（小さくてOK）
-      </div>
-      <textarea rows="3" placeholder="例）インスタで1投稿してみる・知人に話してみる・プロフィール文を書き直す…"></textarea>
-    </div>
-
-    <div class="action-box">
-      <div class="action-title">🌱 私の「次の一歩」宣言</div>
-      <textarea rows="2" placeholder="私は________することで、________な人の役に立ちたい。まず___________からやってみます！"></textarea>
-    </div>
-  </div>
-
-  <!-- シェアタイム -->
-  <div class="work-card" style="border: 2px solid var(--blush-dark);">
-    <div class="work-header">
-      <span class="step-badge badge-green">💬 シェア</span>
-      <span class="work-title">シェア＆フィードバックタイム</span>
-    </div>
-    <p class="work-desc">気になった質問・気づき・「次の一歩」を参加者でシェアしましょう。<br>
-    人の話を聞いて気づくこともたくさんあります。聴くことも大切な時間です🌿</p>
-
-    <div class="question-block">
-      <div class="question-label">
-        <span class="q-icon green">✎</span>
-        他の人のシェアを聞いて、気づいたこと・もらったヒント
-      </div>
-      <textarea rows="4" placeholder="メモしておきましょう…"></textarea>
-    </div>
-  </div>
-
-  <!-- フッター -->
-  <div class="footer">
-    <div class="brand">🦥 モカ＆こころん♪ 心を整える伴奏者</div>
-    AIシフト時代に「自分の軸」を見つける整理会<br><br>
-    <em>自分の考えを整理し、一緒に「次の一歩」を見つけましょう 🚶‍➡️</em>
-  </div>
-
+<!-- ヘッダー -->
+<div class="header">
+  <span class="tag">🌱 AIシフト時代のワークシート</span>
+  <h1>AIシフト時代に<br><span>「自分の軸」</span>を見つける<br>整理ワークシート</h1>
+  <div class="divider"></div>
+  <p class="sub">〜やりたいことを形にする設計ワーク〜<br>モカ＆こころん♪ 心を整える伴奏者 🦥</p>
 </div>
+
+<!-- イントロ -->
+<div class="intro">
+  🦥 <strong>このワークシートの使い方</strong><br>
+  タップして選ぶだけでもOKです。思ったことをそのまま出してみましょう。<br>
+  正解はありません。書きながら、気づいていきましょう🌿
+</div>
+
+<!-- フロー -->
+<div class="flow">
+  <div class="flow-item s1">STEP 1<br><small>自分を知る</small></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-item s2">STEP 2<br><small>価値に変換</small></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-item s3">STEP 3<br><small>形にする</small></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-item s4">STEP 4<br><small>次の一歩</small></div>
+</div>
+
+<!-- ========== STEP 1 ========== -->
+<div class="work-card">
+  <div class="work-header">
+    <span class="step-badge sb1">STEP 1</span>
+    <span class="work-title">自分を知る｜今の状態を整理する</span>
+  </div>
+  <p class="work-desc">まず「今の自分」をそのまま出してみましょう。評価や判断はしなくてOKです。</p>
+
+  <!-- Q1 -->
+  <div class="q-block">
+    <div class="q-label">
+      <span class="q-num qn1">1</span>
+      今やっていること（仕事・副業・活動など）
+    </div>
+    <textarea rows="2" placeholder="例）SNS発信・ハンドメイド販売・本業は会社員…"></textarea>
+  </div>
+
+  <!-- Q2 得意なこと -->
+  <div class="q-block">
+    <div class="q-label">
+      <span class="q-num qn1">2</span>
+      得意なこと・人からよく頼まれること
+    </div>
+    <div class="hint-label">👇 タップして選んでください（複数OK）</div>
+    <div class="chip-grid" id="q2-chips">
+      <button class="chip" onclick="toggleChip(this,'on-blush')">👂 話を聴くこと</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">✍️ 文章を書くこと</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">🎨 デザイン・表現</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">📊 整理・分析</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">💬 教えること・伝えること</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">🤝 人をつなぐこと</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">📱 SNS・発信</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">🍳 料理・食</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">👶 子育て・教育</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">💻 IT・プログラミング</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">🌿 健康・運動・ヨガ</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">🎵 音楽・アート</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">📚 学ぶこと・リサーチ</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">💡 企画・アイデア出し</button>
+    </div>
+    <textarea rows="2" placeholder="他にあれば自由に…"></textarea>
+  </div>
+
+  <!-- Q3 好きなこと -->
+  <div class="q-block">
+    <div class="q-label">
+      <span class="q-num qn1">3</span>
+      好きなこと・時間を忘れてやっていること
+    </div>
+    <div class="hint-label">👇 タップして選んでください（複数OK）</div>
+    <div class="chip-grid">
+      <button class="chip" onclick="toggleChip(this,'on-blush')">📖 読書・インプット</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">✍️ 書くこと・日記</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">🎨 ものづくり・手芸</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">🌿 自然・お散歩</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">☕ カフェ・おうち時間</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">💬 誰かと話すこと</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">🍽️ 料理・お菓子作り</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">🎵 音楽・歌・楽器</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">📸 写真・映像</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">🧘 瞑想・ジャーナリング</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">🏃 体を動かすこと</button>
+      <button class="chip" onclick="toggleChip(this,'on-blush')">✈️ 旅・お出かけ</button>
+    </div>
+    <textarea rows="2" placeholder="他にあれば自由に…"></textarea>
+  </div>
+
+  <!-- Q4 ありがとう -->
+  <div class="q-block">
+    <div class="q-label">
+      <span class="q-num qn1">4</span>
+      これまで「ありがとう」と言われた経験
+    </div>
+    <textarea rows="2" placeholder="例）相談に乗ったら「すっきりした」と言われた・資料をわかりやすく作ったと褒められた…"></textarea>
+  </div>
+</div>
+
+<!-- ========== STEP 2 ========== -->
+<div class="work-card">
+  <div class="work-header">
+    <span class="step-badge sb2">STEP 2</span>
+    <span class="work-title">価値に変換｜「誰の何に役立つか」を見つける</span>
+  </div>
+  <p class="work-desc">STEP1で出てきたものを「誰かの役に立つ視点」で見直してみましょう。</p>
+  <div class="hint-box">💡 あなたが「当たり前」と思っていることが、誰かの「すごい価値」かもしれません</div>
+
+  <!-- Q5 困っている人 -->
+  <div class="q-block">
+    <div class="q-label">
+      <span class="q-num qn2">5</span>
+      あなたの得意・好きが役立つ人はどんな人？
+    </div>
+    <div class="hint-label">👇 近いものをタップ（複数OK）</div>
+    <div class="chip-grid">
+      <button class="chip" onclick="toggleChip(this,'on-peach')">⏰ 忙しくて自分の時間がない人</button>
+      <button class="chip" onclick="toggleChip(this,'on-peach')">🌀 やりたいことが見つからない人</button>
+      <button class="chip" onclick="toggleChip(this,'on-peach')">😔 自己肯定感が低い・自信がない人</button>
+      <button class="chip" onclick="toggleChip(this,'on-peach')">💼 副業・起業を始めたい人</button>
+      <button class="chip" onclick="toggleChip(this,'on-peach')">👨‍👩‍👧 子育てと仕事の両立に悩む人</button>
+      <button class="chip" onclick="toggleChip(this,'on-peach')">🔄 転職・キャリアに迷っている人</button>
+      <button class="chip" onclick="toggleChip(this,'on-peach')">😰 人間関係に疲れている人</button>
+      <button class="chip" onclick="toggleChip(this,'on-peach')">📱 SNS発信が苦手な人</button>
+      <button class="chip" onclick="toggleChip(this,'on-peach')">🌿 心・体のバランスを整えたい人</button>
+      <button class="chip" onclick="toggleChip(this,'on-peach')">💡 アイデアはあるが動けない人</button>
+    </div>
+  </div>
+
+  <!-- Q6 本当の悩み -->
+  <div class="q-block">
+    <div class="q-label">
+      <span class="q-num qn2">6</span>
+      その人が「本当に解決したい」こととは？
+    </div>
+    <textarea rows="2" placeholder="例）自分が何をしたいかわからなくなってきた・頑張っているのに変われない気がする…"></textarea>
+  </div>
+
+  <!-- Q7 サポート -->
+  <div class="q-block">
+    <div class="q-label">
+      <span class="q-num qn2">7</span>
+      あなたならどんなサポートができそう？
+    </div>
+    <div class="hint-label">👇 近いものをタップ（複数OK）</div>
+    <div class="chip-grid">
+      <button class="chip" onclick="toggleChip(this,'on-peach')">👂 話を聴いて整理する</button>
+      <button class="chip" onclick="toggleChip(this,'on-peach')">✍️ 一緒に言語化する</button>
+      <button class="chip" onclick="toggleChip(this,'on-peach')">📋 手順・方法を教える</button>
+      <button class="chip" onclick="toggleChip(this,'on-peach')">🎨 代わりに作る・表現する</button>
+      <button class="chip" onclick="toggleChip(this,'on-peach')">🤝 継続をサポートする</button>
+      <button class="chip" onclick="toggleChip(this,'on-peach')">💡 視点・気づきを与える</button>
+      <button class="chip" onclick="toggleChip(this,'on-peach')">🌿 体験・場を提供する</button>
+    </div>
+    <textarea rows="2" placeholder="他にあれば自由に…"></textarea>
+  </div>
+</div>
+
+<!-- ========== STEP 3 ========== -->
+<div class="work-card">
+  <div class="work-header">
+    <span class="step-badge sb3">STEP 3</span>
+    <span class="work-title">形にする｜やりたいこと → カタチへ</span>
+  </div>
+  <p class="work-desc">STEP1・2で出てきたものをつなげて、「自分らしい形」を考えてみましょう。</p>
+
+  <div class="convert-wrap">
+    <div class="convert-row">
+      <div class="c-label cl1">やりたい<br>こと</div>
+      <div class="c-input">
+        <textarea rows="2" placeholder="例）人の気持ちの整理をサポートしたい…"></textarea>
+      </div>
+    </div>
+    <div class="c-arrow">↓</div>
+    <div class="convert-row">
+      <div class="c-label cl2">届ける<br>価値</div>
+      <div class="c-input">
+        <textarea rows="2" placeholder="例）自分の気持ちが整理できる・次の一歩が見えてくる…"></textarea>
+      </div>
+    </div>
+    <div class="c-arrow">↓</div>
+    <div class="convert-row">
+      <div class="c-label cl3">カタチ<br>（案）</div>
+      <div class="c-input">
+        <div class="hint-label" style="margin-top:4px;">👇 タップして選んでみましょう</div>
+        <div class="chip-grid">
+          <button class="chip" onclick="toggleChip(this,'on-sage')">💬 個別セッション</button>
+          <button class="chip" onclick="toggleChip(this,'on-sage')">👥 グループワーク</button>
+          <button class="chip" onclick="toggleChip(this,'on-sage')">📱 SNS発信</button>
+          <button class="chip" onclick="toggleChip(this,'on-sage')">📝 note・ブログ</button>
+          <button class="chip" onclick="toggleChip(this,'on-sage')">🎥 動画・YouTube</button>
+          <button class="chip" onclick="toggleChip(this,'on-sage')">📚 電子書籍・資料</button>
+          <button class="chip" onclick="toggleChip(this,'on-sage')">🎙️ 音声配信・Podcast</button>
+          <button class="chip" onclick="toggleChip(this,'on-sage')">🛍️ ハンドメイド・商品</button>
+          <button class="chip" onclick="toggleChip(this,'on-sage')">✉️ メルマガ・LINE</button>
+          <button class="chip" onclick="toggleChip(this,'on-sage')">🏡 オフ会・イベント</button>
+        </div>
+        <textarea rows="2" placeholder="他にアイデアがあれば…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <p class="q-label" style="margin-bottom:10px;">
+    <span class="q-num qn3">✦</span>
+    小さく始めるとしたら？
+  </p>
+  <div class="two-col">
+    <div>
+      <label>🆓 まず無料でできることは</label>
+      <textarea rows="3" placeholder="例）SNSで発信・知人に話す…"></textarea>
+    </div>
+    <div>
+      <label>🌱 モニターでやってみるなら</label>
+      <textarea rows="3" placeholder="例）無料体験・少人数ワーク…"></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- ========== STEP 4 ========== -->
+<div class="work-card">
+  <div class="work-header">
+    <span class="step-badge sb4">STEP 4</span>
+    <span class="work-title">次の一歩を決める</span>
+  </div>
+  <p class="work-desc">「考える」から「動く」へ。今日この場で決める小さな一歩を書いておきましょう。</p>
+
+  <!-- Q8 気づき -->
+  <div class="q-block">
+    <div class="q-label">
+      <span class="q-num qn4">8</span>
+      今日の気づき・新しく見えてきたこと
+    </div>
+    <textarea rows="2" placeholder="シェアの前に、まず自分の言葉でメモしておきましょう…"></textarea>
+  </div>
+
+  <!-- Q9 来週の一歩 -->
+  <div class="q-block">
+    <div class="q-label">
+      <span class="q-num qn4">9</span>
+      今日から1週間でやってみること
+    </div>
+    <div class="hint-label">👇 近いものをタップ</div>
+    <div class="chip-grid">
+      <button class="chip" onclick="toggleChip(this,'on-lav')">📱 SNSで1投稿してみる</button>
+      <button class="chip" onclick="toggleChip(this,'on-lav')">👤 知人に話してみる</button>
+      <button class="chip" onclick="toggleChip(this,'on-lav')">✍️ プロフィールを書き直す</button>
+      <button class="chip" onclick="toggleChip(this,'on-lav')">📝 noteを1本書いてみる</button>
+      <button class="chip" onclick="toggleChip(this,'on-lav')">💬 誰かにモニター提案してみる</button>
+      <button class="chip" onclick="toggleChip(this,'on-lav')">📋 サービス内容をまとめてみる</button>
+      <button class="chip" onclick="toggleChip(this,'on-lav')">🎯 ターゲットをもっと絞ってみる</button>
+      <button class="chip" onclick="toggleChip(this,'on-lav')">📚 インプットを1つする</button>
+    </div>
+    <textarea rows="2" placeholder="他にあれば自由に…"></textarea>
+  </div>
+
+  <!-- 宣言（穴埋め） -->
+  <div class="declare-box">
+    <div class="declare-title">🌱 私の「次の一歩」宣言</div>
+    <div class="madlib">
+      私は&nbsp;<input type="text" placeholder="得意なこと・好きなこと" style="min-width:140px;">&nbsp;を活かして、<br>
+      <input type="text" placeholder="どんな人" style="min-width:110px;">&nbsp;の役に立ちたい。<br>
+      まず&nbsp;<input type="text" placeholder="具体的な一歩" style="min-width:150px;">&nbsp;からやってみます！
+    </div>
+  </div>
+</div>
+
+<!-- シェアタイム -->
+<div class="share-card">
+  <div class="share-title">💬 シェア＆フィードバックタイム</div>
+  <p class="share-desc">気になった問い・気づき・「次の一歩」を参加者でシェアしましょう。<br>人の話を聴いて気づくことも、大切な時間です🌿</p>
+  <textarea rows="3" placeholder="他の人のシェアを聴いて、気づいたこと・もらったヒント…"></textarea>
+</div>
+
+<!-- フッター -->
+<div class="footer">
+  <div class="brand">🦥 モカ＆こころん♪ 心を整える伴奏者</div>
+  <div>AIシフト時代に「自分の軸」を見つける整理会<br>自分の考えを整理し、一緒に「次の一歩」を見つけましょう 🚶‍➡️</div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+  // チップのトグル（複数選択OK）
+  function toggleChip(el, cls) {
+    const all = ['on-blush','on-peach','on-sage','on-lav'];
+    const active = all.some(c => el.classList.contains(c));
+    if (active) { all.forEach(c => el.classList.remove(c)); }
+    else { el.classList.add(cls); }
+  }
+
+  // フロー進捗：スクロール位置で STEP をハイライト
+  const steps = document.querySelectorAll('.work-card');
+  const flowItems = document.querySelectorAll('.flow-item');
+
+  // スクロール進捗バー
+  window.addEventListener('scroll', () => {
+    const el = document.documentElement;
+    const top = el.scrollTop || document.body.scrollTop;
+    const h = el.scrollHeight - el.clientHeight;
+    document.getElementById('progress').style.width = (h > 0 ? top / h * 100 : 0) + '%';
+
+    // アクティブSTEP
+    let cur = 0;
+    steps.forEach((s, i) => {
+      if (s.getBoundingClientRect().top < window.innerHeight * 0.5) cur = i;
+    });
+    flowItems.forEach((f, i) => {
+      f.style.opacity = (i === cur) ? '1' : '.5';
+      f.style.transform = (i === cur) ? 'scale(1.05)' : 'scale(1)';
+      f.style.transition = 'all .3s';
+    });
+  });
+</script>
 </body>
 </html>
