@@ -128,12 +128,27 @@
   }
   .star-btn:hover { transform: scale(1.15); }
   .star-btn.lit { color: #F5C842; }
-  .print-btn {
-    display: block; margin: 18px auto 0; padding: 10px 32px;
-    background: var(--blush); border: 1.5px solid #D4867A; border-radius: 24px;
-    font-family: inherit; font-size: 14px; font-weight: 700; color: #7A2A20; cursor: pointer;
+  .print-btn-wrap {
+    margin: 20px 0 4px;
+    background: var(--peach);
+    border: 1.5px solid #D4B090;
+    border-radius: 16px;
+    padding: 14px 16px;
+    text-align: center;
   }
-  .print-btn:hover { background: #F7C8C0; }
+  .print-btn-label {
+    font-size: 11px; color: var(--text-mid);
+    margin-bottom: 8px; line-height: 1.8;
+  }
+  .print-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin: 0 auto; padding: 10px 32px;
+    background: white; border: 1.5px solid #D4867A; border-radius: 24px;
+    font-family: inherit; font-size: 14px; font-weight: 700; color: #7A2A20; cursor: pointer;
+    box-shadow: 0 2px 8px rgba(212,134,122,0.15);
+    transition: all 0.15s;
+  }
+  .print-btn:hover { background: var(--blush); transform: translateY(-1px); }
 
   ruby { ruby-align: center; }
   rt { font-size: 0.55em; color: var(--text-mid); font-weight: 400; }
@@ -344,7 +359,10 @@
     </div>
   </div>
 
-  <button class="print-btn" onclick="window.print()">🖨️ このシートをいんさつする</button>
+  <div class="print-btn-wrap">
+    <div class="print-btn-label">📄 シートを印刷・PDFに保存できます<br><span style="font-size:10px;color:var(--text-light)">※ 気もちチャートは印刷されません</span></div>
+    <button class="print-btn" onclick="window.print()">🖨️ このシートをいんさつする</button>
+  </div>
 
   <div class="kokoron-footer">
     🦥 こころん × Moca　｜　kokoro_worksheet
