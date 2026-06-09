@@ -227,9 +227,9 @@ rt { font-size: 0.55em; color: var(--text-md); font-weight: 400; }
     width: 100%; margin: 0;
     padding: 8mm 12mm 8mm;
     box-shadow: none;
-    page-break-after: always;
+    break-after: avoid;
   }
-  .page:last-of-type { page-break-after: auto; }
+  .page + .page { break-before: page; }
   @page { size: A4 portrait; margin: 0; }
 }
 @media screen {
