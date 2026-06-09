@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>読んだ本の 気もちシート｜こころん</title>
-<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+<title>読んだ本の 気もちシート｜こころん × Moca</title>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --cream: #FAF7F2; --blush: #F7D6D0; --sky: #D4EAF5; --lavender: #E5DCF5;
@@ -25,8 +25,39 @@
     box-shadow: 0 4px 24px rgba(0,0,0,0.08);
   }
   .ws-header { text-align: center; margin-bottom: 20px; }
+  .brand-bar {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-bottom: 14px;
+  }
+  .brand-logo {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 12px; font-weight: 700; color: var(--text-mid);
+    letter-spacing: 0.08em;
+  }
+  .brand-dot { width: 4px; height: 4px; background: var(--border-soft); border-radius: 50%; }
+  .brand-tag {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 10px; color: var(--text-light);
+    background: var(--lavender); border-radius: 10px;
+    padding: 2px 10px; letter-spacing: 0.05em;
+  }
   .ws-title-main { font-size: 22px; font-weight: 700; color: var(--text-dark); letter-spacing: 0.02em; line-height: 1.8; }
   .ws-subtitle { font-size: 13px; color: var(--text-mid); margin-top: 4px; }
+  .other-input-wrap { display: none; margin-top: 8px; }
+  .other-input-wrap.show { display: block; }
+  .other-input {
+    border: none; border-bottom: 1.5px solid var(--border-soft);
+    width: 100%; background: transparent; font-family: inherit;
+    font-size: 13px; color: var(--text-dark); outline: none;
+    padding: 4px 4px; height: 28px;
+  }
+  .other-input:focus { border-bottom-color: var(--accent); }
+  .kokoron-footer {
+    text-align: center; margin-top: 20px; padding: 10px 0;
+    border-top: 1px dashed var(--border-soft);
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 11px; color: var(--text-light); letter-spacing: 0.06em;
+  }
   .section-card {
     background: white; border-radius: 16px; border: 1.5px solid var(--border-soft);
     padding: 14px 16px; margin-bottom: 14px; position: relative;
@@ -97,12 +128,27 @@
   }
   .star-btn:hover { transform: scale(1.15); }
   .star-btn.lit { color: #F5C842; }
-  .print-btn {
-    display: block; margin: 18px auto 0; padding: 10px 32px;
-    background: var(--blush); border: 1.5px solid #D4867A; border-radius: 24px;
-    font-family: inherit; font-size: 14px; font-weight: 700; color: #7A2A20; cursor: pointer;
+  .print-btn-wrap {
+    margin: 20px 0 4px;
+    background: var(--peach);
+    border: 1.5px solid #D4B090;
+    border-radius: 16px;
+    padding: 14px 16px;
+    text-align: center;
   }
-  .print-btn:hover { background: #F7C8C0; }
+  .print-btn-label {
+    font-size: 11px; color: var(--text-mid);
+    margin-bottom: 8px; line-height: 1.8;
+  }
+  .print-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin: 0 auto; padding: 10px 32px;
+    background: white; border: 1.5px solid #D4867A; border-radius: 24px;
+    font-family: inherit; font-size: 14px; font-weight: 700; color: #7A2A20; cursor: pointer;
+    box-shadow: 0 2px 8px rgba(212,134,122,0.15);
+    transition: all 0.15s;
+  }
+  .print-btn:hover { background: var(--blush); transform: translateY(-1px); }
 
   ruby { ruby-align: center; }
   rt { font-size: 0.55em; color: var(--text-mid); font-weight: 400; }
@@ -182,12 +228,17 @@
 <div class="ws-wrap">
 
   <div class="ws-header">
-    <div style="display:flex;justify-content:center;align-items:flex-end;gap:8px;margin-bottom:8px;">
-      <span style="font-size:32px">🦥</span>
-      <span style="font-size:13px;color:var(--text-mid);padding-bottom:6px">いっしょに <ruby>読<rt>よ</rt></ruby>もう！</span>
+    <div class="brand-bar">
+      <span style="font-size:22px">🦥</span>
+      <div class="brand-dot"></div>
+      <span class="brand-logo">こころん</span>
+      <div class="brand-dot"></div>
+      <span class="brand-tag">Moca</span>
     </div>
     <div class="ws-title-main">📖 <ruby>読<rt>よ</rt></ruby>んだ<ruby>本<rt>ほん</rt></ruby>の 気もちシート</div>
-    <div class="ws-subtitle"><ruby>名前<rt>なまえ</rt></ruby>：_______________　　<ruby>日<rt>ひ</rt></ruby>づけ：_______________</div>
+    <div class="ws-subtitle" style="margin-top:6px;">
+      <ruby>名前<rt>なまえ</rt></ruby>：_______________　　<ruby>日<rt>ひ</rt></ruby>づけ：_______________
+    </div>
   </div>
 
   <!-- タイトル -->
@@ -219,6 +270,10 @@
       <button class="who-chip" onclick="toggleChip(this)">🐶 いぬ・ねこ</button>
       <button class="who-chip" onclick="toggleChip(this)">🐻 どうぶつ</button>
       <button class="who-chip" onclick="toggleChip(this)">🧚 ようせい・まほうつかい</button>
+      <button class="who-chip" id="otherChip" onclick="toggleOther(this)">✏️ その他</button>
+    </div>
+    <div class="other-input-wrap" id="otherInputWrap">
+      <input class="other-input" type="text" placeholder="どんなキャラクターだった？">
     </div>
     <div style="margin-top:10px;">
       <div style="font-size:12px;color:var(--text-mid);margin-bottom:4px;line-height:1.8;">だれのことが <ruby>一番<rt>いちばん</rt></ruby> すきだった？</div>
@@ -304,7 +359,14 @@
     </div>
   </div>
 
-  <button class="print-btn" onclick="window.print()">🖨️ このシートをいんさつする</button>
+  <div class="print-btn-wrap">
+    <div class="print-btn-label">📄 シートを印刷・PDFに保存できます<br><span style="font-size:10px;color:var(--text-light)">※ 気もちチャートは印刷されません</span></div>
+    <button class="print-btn" onclick="window.print()">🖨️ このシートをいんさつする</button>
+  </div>
+
+  <div class="kokoron-footer">
+    🦥 こころん × Moca　｜　kokoro_worksheet
+  </div>
 
 </div>
 
@@ -352,6 +414,15 @@ makeTags('tags-mid');
 makeTags('tags-end');
 
 function toggleChip(el) { el.classList.toggle('selected'); }
+
+function toggleOther(el) {
+  el.classList.toggle('selected');
+  const wrap = document.getElementById('otherInputWrap');
+  wrap.classList.toggle('show', el.classList.contains('selected'));
+  if (el.classList.contains('selected')) {
+    wrap.querySelector('input').focus();
+  }
+}
 
 const starLabels = ['','もうすこし…','まあまあ','よかった！','すごくよかった！','さいこう！！'];
 function rateStar(n) {
