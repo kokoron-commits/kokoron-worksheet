@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>読んだ本の気もちシート【印刷用】｜こころん × Moca</title>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream:   #FAF7F2;
+  --blush:   #F7D6D0;
+  --sky:     #D4EAF5;
+  --lav:     #E5DCF5;
+  --sage:    #D8EDD8;
+  --peach:   #FDECD8;
+  --yellow:  #FDF5CC;
+  --border:  #D9C9B8;
+  --text:    #5C4A38;
+  --text-md: #8B7260;
+  --text-lt: #B09880;
+  --accent:  #C89E7A;
+}
+
+body {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  background: #e8e0d8;
+  color: var(--text);
+}
+
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto 24px;
+  padding: 9mm 13mm 9mm;
+  background: var(--cream);
+  position: relative;
+}
+
+/* ===== ヘッダー ===== */
+.ws-header {
+  text-align: center;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px dashed var(--border);
+}
+.brand-bar {
+  display: flex; align-items: center; justify-content: center;
+  gap: 7px; margin-bottom: 5px;
+}
+.brand-logo {
+  font-family: 'Zen Maru Gothic', sans-serif;
+  font-size: 11px; font-weight: 700;
+  color: var(--text-md); letter-spacing: 0.08em;
+}
+.brand-dot {
+  width: 3px; height: 3px;
+  background: var(--border); border-radius: 50%;
+}
+.brand-tag {
+  font-family: 'Zen Maru Gothic', sans-serif;
+  font-size: 9px; color: var(--text-lt);
+  background: var(--lav); border-radius: 10px;
+  padding: 2px 9px; letter-spacing: 0.05em;
+}
+.ws-title {
+  font-size: 20px; font-weight: 700;
+  color: var(--text); letter-spacing: 0.02em;
+  line-height: 1.6; margin-bottom: 3px;
+}
+.ws-meta {
+  font-size: 10px; color: var(--text-md);
+  display: flex; gap: 20px; justify-content: center;
+}
+.meta-field {
+  display: flex; align-items: center; gap: 6px;
+}
+.meta-line {
+  display: inline-block;
+  width: 80px; height: 16px;
+  border-bottom: 1.5px solid var(--border);
+}
+
+/* ===== セクションカード ===== */
+.card {
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  padding: 8px 12px 10px;
+  margin-bottom: 9px;
+  position: relative;
+}
+.card-icon {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  position: absolute; top: -10px; left: 12px;
+  border: 1.5px solid var(--border);
+}
+.card-q {
+  font-size: 13px; font-weight: 700;
+  color: var(--text); margin-bottom: 7px;
+  line-height: 1.6; padding-top: 4px;
+}
+
+/* ===== 記入欄 ===== */
+.write-line {
+  display: block; width: 100%;
+  height: 24px; margin: 5px 0;
+  border: none; border-bottom: 1.5px solid var(--border);
+  background: transparent;
+}
+.write-box {
+  display: block; width: 100%;
+  min-height: 48px; margin-top: 5px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px; background: transparent;
+}
+
+/* ===== 登場人物チェック ===== */
+.who-grid {
+  display: flex; flex-wrap: wrap;
+  gap: 5px 10px; margin-bottom: 8px;
+}
+.who-item {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 10px; color: var(--text-md);
+}
+.who-box {
+  width: 12px; height: 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 2px; flex-shrink: 0;
+}
+
+/* ===== 気もちの変化 ===== */
+.feelings-row {
+  display: flex; align-items: stretch; gap: 4px;
+  margin-top: 6px;
+}
+.feeling-block { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.feeling-top {
+  font-size: 9px; color: var(--text-md);
+  text-align: center; line-height: 1.5;
+}
+.feeling-box {
+  border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 6px;
+  min-height: 70px; display: flex; flex-direction: column; gap: 3px;
+}
+.feeling-tags {
+  display: flex; flex-wrap: wrap; gap: 2px 3px;
+  justify-content: center;
+}
+.feeling-tag {
+  font-size: 8.5px; color: var(--text-md);
+  border: 1px solid var(--border);
+  border-radius: 8px; padding: 1px 5px;
+  background: white;
+}
+.feeling-write-line {
+  width: 100%; height: 18px;
+  border: none; border-bottom: 1px solid var(--border);
+  background: transparent; margin-top: auto;
+}
+.arrow-mid {
+  display: flex; align-items: center;
+  color: var(--border); font-size: 16px;
+  padding-top: 30px;
+}
+
+/* ===== おすすめ度 ===== */
+.stars-row {
+  display: flex; gap: 8px;
+  justify-content: center; margin: 8px 0;
+}
+.star-circle {
+  width: 28px; height: 28px;
+  border: 1.5px solid #D4BE64;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: #D3C8B8;
+  background: white;
+}
+
+/* ===== こころんメッセージ ===== */
+.kokoron-msg {
+  text-align: center;
+  padding: 10px 14px;
+  background: white;
+  border-radius: 12px;
+  border: 1.5px dashed var(--border);
+  margin-bottom: 9px;
+}
+.kokoron-msg p {
+  font-size: 10.5px; color: var(--text-md);
+  line-height: 2;
+}
+
+/* ===== フッター ===== */
+.ws-footer {
+  text-align: center;
+  padding-top: 7px;
+  border-top: 1px dashed var(--border);
+  font-family: 'Zen Maru Gothic', sans-serif;
+  font-size: 9.5px; color: var(--text-lt);
+}
+
+/* ===== 印刷ボタン（画面のみ） ===== */
+.print-btn {
+  display: block; margin: 24px auto;
+  background: #7A2A20; color: white;
+  border: none; border-radius: 24px;
+  padding: 12px 36px;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  letter-spacing: 0.05em;
+}
+.print-btn:hover { opacity: 0.85; }
+
+ruby { ruby-align: center; }
+rt { font-size: 0.55em; color: var(--text-md); font-weight: 400; }
+
+@media print {
+  body { background: white; }
+  .print-btn { display: none; }
+  .page {
+    width: 100%; margin: 0;
+    padding: 8mm 12mm 8mm;
+    box-shadow: none;
+    page-break-after: always;
+  }
+  .page:last-of-type { page-break-after: auto; }
+  @page { size: A4 portrait; margin: 0; }
+}
+@media screen {
+  .page { box-shadow: 0 4px 20px rgba(0,0,0,0.10); }
+}
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()" style="margin-top:28px;">🖨️ PDFで保存 / 印刷する</button>
+
+<!-- ===== PAGE 1 ===== -->
+<div class="page">
+
+  <div class="ws-header">
+    <div class="brand-bar">
+      <span style="font-size:20px">🦥</span>
+      <div class="brand-dot"></div>
+      <span class="brand-logo">こころん</span>
+      <div class="brand-dot"></div>
+      <span class="brand-tag">Moca</span>
+    </div>
+    <div class="ws-title">📖 <ruby>読<rt>よ</rt></ruby>んだ<ruby>本<rt>ほん</rt></ruby>の 気もちシート</div>
+    <div class="ws-meta">
+      <div class="meta-field"><span style="font-size:10px"><ruby>名前<rt>なまえ</rt></ruby>：</span><span class="meta-line"></span></div>
+      <div class="meta-field"><span style="font-size:10px"><ruby>日<rt>ひ</rt></ruby>づけ：</span><span class="meta-line"></span></div>
+    </div>
+  </div>
+
+  <!-- タイトル -->
+  <div class="card" style="background:var(--sky);border-color:#9ACDE0;padding-top:14px;">
+    <div class="card-icon" style="background:#fff;border-color:#9ACDE0;">📚</div>
+    <div class="card-q"><ruby>読<rt>よ</rt></ruby>んだ<ruby>本<rt>ほん</rt></ruby>のタイトル</div>
+    <div class="write-line" style="border-bottom-color:#7AAAC4;"></div>
+    <div style="display:flex;gap:12px;margin-top:4px;">
+      <div style="flex:1">
+        <div style="font-size:9.5px;color:var(--text-md);margin-bottom:2px;"><ruby>作<rt>さく</rt></ruby>しゃ</div>
+        <div class="write-line" style="border-bottom-color:#9ACDE0;"></div>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:9.5px;color:var(--text-md);margin-bottom:2px;"><ruby>読<rt>よ</rt></ruby>んだページ</div>
+        <div class="write-line" style="border-bottom-color:#9ACDE0;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 登場人物 -->
+  <div class="card" style="padding-top:14px;">
+    <div class="card-icon" style="background:var(--peach);border-color:#D4B090;">👥</div>
+    <div class="card-q">お<ruby>話<rt>はなし</rt></ruby>に<ruby>出<rt>で</rt></ruby>てきたのは だれ？（あてはまるものに ✓）</div>
+    <div class="who-grid">
+      <span class="who-item"><span class="who-box"></span>🧒 <ruby>子<rt>こ</rt></ruby>ども</span>
+      <span class="who-item"><span class="who-box"></span>🧑 <ruby>大人<rt>おとな</rt></ruby></span>
+      <span class="who-item"><span class="who-box"></span>👴 おじいさん・おばあさん</span>
+      <span class="who-item"><span class="who-box"></span>🐶 いぬ・ねこ</span>
+      <span class="who-item"><span class="who-box"></span>🐻 どうぶつ</span>
+      <span class="who-item"><span class="who-box"></span>🧚 ようせい・まほうつかい</span>
+      <span class="who-item"><span class="who-box"></span>✏️ その<ruby>他<rt>た</rt></ruby>（　　　　　　　　　　）</span>
+    </div>
+    <div style="font-size:9.5px;color:var(--text-md);margin-bottom:3px;">だれのことが <ruby>一番<rt>いちばん</rt></ruby> すきだった？</div>
+    <div class="write-line"></div>
+  </div>
+
+  <!-- 気もちの変化 -->
+  <div class="card" style="background:white;padding-top:14px;">
+    <div class="card-icon" style="background:var(--blush);border-color:#E4A898;">💭</div>
+    <div class="card-q">気もちの へんか</div>
+    <p style="font-size:9px;color:var(--text-lt);margin-bottom:5px;">気もちのことばを ○で かこもう。または じぶんで かいてね。</p>
+    <div class="feelings-row">
+
+      <div class="feeling-block">
+        <div class="feeling-top">🌱<br>はじめは</div>
+        <div class="feeling-box" style="background:var(--sky);border-color:#9ACDE0;">
+          <div class="feeling-tags">
+            <span class="feeling-tag">ドキドキ</span><span class="feeling-tag">わくわく</span>
+            <span class="feeling-tag">うきうき</span><span class="feeling-tag">あんしん</span>
+            <span class="feeling-tag">もやもや</span><span class="feeling-tag">びくびく</span>
+            <span class="feeling-tag">さびしい</span><span class="feeling-tag">いらいら</span>
+          </div>
+          <div class="feeling-write-line" style="border-color:#9ACDE0;"></div>
+        </div>
+      </div>
+
+      <div class="arrow-mid">→</div>
+
+      <div class="feeling-block">
+        <div class="feeling-top">🌿<br>とちゅうは</div>
+        <div class="feeling-box" style="background:var(--yellow);border-color:#D4BE64;">
+          <div class="feeling-tags">
+            <span class="feeling-tag">ドキドキ</span><span class="feeling-tag">わくわく</span>
+            <span class="feeling-tag">にこにこ</span><span class="feeling-tag">しんみり</span>
+            <span class="feeling-tag">もやもや</span><span class="feeling-tag">かなしい</span>
+            <span class="feeling-tag">むかむか</span><span class="feeling-tag">ぷんぷん</span>
+          </div>
+          <div class="feeling-write-line" style="border-color:#D4BE64;"></div>
+        </div>
+      </div>
+
+      <div class="arrow-mid">→</div>
+
+      <div class="feeling-block">
+        <div class="feeling-top">🌸<br>さいごは</div>
+        <div class="feeling-box" style="background:var(--blush);border-color:#E4A898;">
+          <div class="feeling-tags">
+            <span class="feeling-tag">るんるん</span><span class="feeling-tag">にこにこ</span>
+            <span class="feeling-tag">あんしん</span><span class="feeling-tag">しんみり</span>
+            <span class="feeling-tag">しくしく</span><span class="feeling-tag">さびしい</span>
+            <span class="feeling-tag">かなしい</span><span class="feeling-tag">ほっとした</span>
+          </div>
+          <div class="feeling-write-line" style="border-color:#E4A898;"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ws-footer">🦥 こころん × Moca　｜　読んだ本の気もちシート　1 / 2</div>
+
+</div><!-- /page1 -->
+
+
+<!-- ===== PAGE 2 ===== -->
+<div class="page">
+
+  <!-- すきなところ -->
+  <div class="card" style="background:var(--sage);border-color:#9DC99D;padding-top:14px;margin-top:4px;">
+    <div class="card-icon" style="background:#fff;border-color:#9DC99D;">❤️</div>
+    <div class="card-q">この<ruby>本<rt>ほん</rt></ruby>の すきなところ</div>
+    <p style="font-size:9px;color:var(--text-lt);margin-bottom:4px;">どんなばめんが すきだった？どうしてすきだとおもった？</p>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+  </div>
+
+  <!-- じぶんだったら -->
+  <div class="card" style="background:var(--lav);border-color:#B8A0DC;padding-top:14px;">
+    <div class="card-icon" style="background:#fff;border-color:#B8A0DC;">🪞</div>
+    <div class="card-q"><ruby>自分<rt>じぶん</rt></ruby>だったら どうする？どうおもう？</div>
+    <p style="font-size:9px;color:var(--text-lt);margin-bottom:4px;">キャラクターと じぶんを くらべてみよう</p>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+  </div>
+
+  <!-- おすすめ度 -->
+  <div class="card" style="padding-top:14px;">
+    <div class="card-icon" style="background:var(--yellow);border-color:#D4BE64;">⭐</div>
+    <div class="card-q" style="text-align:center;">おすすめ度は？（すきなだけ ☆を ぬろう）</div>
+    <div class="stars-row">
+      <div class="star-circle">☆</div>
+      <div class="star-circle">☆</div>
+      <div class="star-circle">☆</div>
+      <div class="star-circle">☆</div>
+      <div class="star-circle">☆</div>
+    </div>
+    <div style="font-size:11px;font-weight:700;color:var(--text);margin-top:8px;margin-bottom:3px;">つぎに<ruby>読<rt>よ</rt></ruby>みたい<ruby>人<rt>ひと</rt></ruby>へ ひとこと</div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+  </div>
+
+  <!-- きになったことば -->
+  <div class="card" style="background:var(--peach);border-color:#D4B090;padding-top:14px;">
+    <div class="card-icon" style="background:#fff;border-color:#D4B090;">✏️</div>
+    <div class="card-q">この<ruby>本<rt>ほん</rt></ruby>で きになった ことば・フレーズ</div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+  </div>
+
+  <!-- こころんメッセージ -->
+  <div class="kokoron-msg">
+    <div style="font-size:20px;margin-bottom:3px;">🦥</div>
+    <p>
+      気もちに きづいてくれて ありがとう。<br>
+      気もちを ことばにできると、<ruby>心<rt>こころ</rt></ruby>が すっきりするよ。<br>
+      <span style="font-size:9.5px;color:var(--text-lt)">— こころん 🌿</span>
+    </p>
+  </div>
+
+  <div class="ws-footer">🦥 こころん × Moca　｜　読んだ本の気もちシート　2 / 2</div>
+
+</div><!-- /page2 -->
+
+<button class="print-btn" onclick="window.print()">🖨️ PDFで保存 / 印刷する</button>
+
+</body>
+</html>
