@@ -275,7 +275,8 @@
 <div class="intro">
   🦥 <strong>このワークシートの使い方</strong><br>
   タップして選ぶだけでもOKです。思ったことをそのまま出してみましょう。<br>
-  正解はありません。書きながら、気づいていきましょう🌿
+  正解はありません。書きながら、気づいていきましょう🌿<br>
+  <small>📱 書いた内容は、このスマホの中に自動で残ります（ほかの人には見えません）</small>
 </div>
 
 <!-- フロー -->
@@ -558,6 +559,28 @@
     if (active) { all.forEach(c => el.classList.remove(c)); }
     else { el.classList.add(cls); }
   }
+
+  // 書いた内容をこの端末に自動保存（閉じても残る）
+  const SAVE_KEY = 'jibun_no_jiku_v1';
+  const fields = document.querySelectorAll('textarea, input[type="text"]');
+  const chips = document.querySelectorAll('.chip');
+  function saveAll() {
+    const data = {
+      f: Array.from(fields).map(f => f.value),
+      c: Array.from(chips).map(c => ['on-blush','on-peach','on-sage','on-lav'].find(k => c.classList.contains(k)) || '')
+    };
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify(data)); } catch (e) {}
+  }
+  function loadAll() {
+    let data = null;
+    try { data = JSON.parse(localStorage.getItem(SAVE_KEY)); } catch (e) {}
+    if (!data) return;
+    (data.f || []).forEach((v, i) => { if (fields[i] && v) fields[i].value = v; });
+    (data.c || []).forEach((k, i) => { if (chips[i] && k) chips[i].classList.add(k); });
+  }
+  loadAll();
+  fields.forEach(f => f.addEventListener('input', saveAll));
+  chips.forEach(c => c.addEventListener('click', saveAll));
 
   // フロー進捗：スクロール位置で STEP をハイライト
   const steps = document.querySelectorAll('.work-card');
