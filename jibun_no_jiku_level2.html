@@ -50,7 +50,35 @@ button.action{border:0;border-radius:999px;padding:11px 18px;font:inherit;font-w
 <script>
 const fields=[...document.querySelectorAll('[data-key]')];
 fields.forEach(el=>{const k='moca_l2_'+el.dataset.key;const s=localStorage.getItem(k);if(s!==null)el.value=s;el.addEventListener('input',()=>localStorage.setItem(k,el.value));});
-document.querySelectorAll('.chips').forEach(group=>{const target=document.querySelector('[data-key="'+group.dataset.target+'"]');if(!target)return;group.querySelectorAll('.chip').forEach(btn=>{btn.addEventListener('click',()=>{btn.classList.toggle('active');const opts=[...group.querySelectorAll('.chip')].map(b=>b.textContent.trim());const selected=[...group.querySelectorAll('.chip.active')].map(b=>b.textContent.trim());const free=(target.value||'').split('、').map(s=>s.trim()).filter(Boolean).filter(x=>!opts.includes(x));target.value=[...selected,...free].join('、');target.dispatchEvent(new Event('input'));});});});
+document.querySelectorAll('.chips').forEach(group => {
+  const target = document.querySelector('[data-key="' + group.dataset.target + '"]');
+  if (!target) return;
+  const buttons = [...group.querySelectorAll('.chip')];
+  const tokens = () => target.value.split('、');
+  const sync = () => {
+    const labels = new Set(tokens().map(text => text.trim()));
+    buttons.forEach(button => {
+      const pressed = labels.has(button.textContent.trim());
+      button.classList.toggle('active', pressed);
+      button.setAttribute('aria-pressed', String(pressed));
+    });
+  };
+  target.addEventListener('input', sync);
+  sync();
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const label = button.textContent.trim();
+      const parts = tokens();
+      if (parts.some(text => text.trim() === label)) {
+        target.value = parts.filter(text => text.trim() !== label).join('、');
+      } else {
+        const separator = !target.value || target.value.endsWith('、') ? '' : '、';
+        target.value += separator + label;
+      }
+      target.dispatchEvent(new Event('input'));
+    });
+  });
+});
 function saveNow(){fields.forEach(el=>localStorage.setItem('moca_l2_'+el.dataset.key,el.value));alert('このブラウザに保存しました。');}
-function clearAll(){if(!confirm('入力内容をすべてクリアしますか？'))return;fields.forEach(el=>{el.value='';localStorage.removeItem('moca_l2_'+el.dataset.key)});document.querySelectorAll('.chip').forEach(b=>b.classList.remove('active'));}
+function clearAll(){if(!confirm('入力内容をすべてクリアしますか？'))return;fields.forEach(el=>{el.value='';localStorage.removeItem('moca_l2_'+el.dataset.key)});document.querySelectorAll('.chip').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false');});}
 </script></body></html>
